@@ -1,0 +1,444 @@
+{
+	"name": "Stage1_Sales_RO_Booking",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "Stage1_Sales_RO_Booking.csv",
+				"fileSystem": "ordertables101"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Occup_Key",
+				"type": "String"
+			},
+			{
+				"name": "CMM_CODE",
+				"type": "String"
+			},
+			{
+				"name": "Comp_key",
+				"type": "String"
+			},
+			{
+				"name": "EQRY_MAKER_CODE",
+				"type": "String"
+			},
+			{
+				"name": "Join_KEY",
+				"type": "String"
+			},
+			{
+				"name": "CSPM_CHRG_SALES_EMP_NO",
+				"type": "String"
+			},
+			{
+				"name": "Booking Month",
+				"type": "String"
+			},
+			{
+				"name": "REGION",
+				"type": "String"
+			},
+			{
+				"name": "BKNG_DLR_NO",
+				"type": "String"
+			},
+			{
+				"name": "TRADE_NAME",
+				"type": "String"
+			},
+			{
+				"name": "DEALER_CITY",
+				"type": "String"
+			},
+			{
+				"name": "EQRY_ENQRY_NO",
+				"type": "String"
+			},
+			{
+				"name": "EQRY_PRESENT_CAR_YN",
+				"type": "String"
+			},
+			{
+				"name": "EQRY_DATE",
+				"type": "String"
+			},
+			{
+				"name": "EQRY_STAT",
+				"type": "String"
+			},
+			{
+				"name": "EQRY_CLSE_DATE",
+				"type": "String"
+			},
+			{
+				"name": "EQRY_SRC_CODE",
+				"type": "String"
+			},
+			{
+				"name": "EQRY_CTGR_CODE",
+				"type": "String"
+			},
+			{
+				"name": "EQRY_SUB_SRC_CODE",
+				"type": "String"
+			},
+			{
+				"name": "CSPM_CUST_NO",
+				"type": "String"
+			},
+			{
+				"name": "CSPM_CUST_FULL_NAME",
+				"type": "String"
+			},
+			{
+				"name": "M_MOBL_PHONE_NO",
+				"type": "String"
+			},
+			{
+				"name": "CSPM_EMAIL",
+				"type": "String"
+			},
+			{
+				"name": "CUSTOMER_TYPE",
+				"type": "String"
+			},
+			{
+				"name": "MODEL",
+				"type": "String"
+			},
+			{
+				"name": "ENGINE_TYPE",
+				"type": "String"
+			},
+			{
+				"name": "TRANSMISSION",
+				"type": "String"
+			},
+			{
+				"name": "TRANSMISSION1",
+				"type": "String"
+			},
+			{
+				"name": "KEC",
+				"type": "String"
+			},
+			{
+				"name": "KEC_CODE",
+				"type": "String"
+			},
+			{
+				"name": "ADDR",
+				"type": "String"
+			},
+			{
+				"name": "PIN_CODE",
+				"type": "String"
+			},
+			{
+				"name": "CITY_CODE",
+				"type": "String"
+			},
+			{
+				"name": "STCD_CODE",
+				"type": "String"
+			},
+			{
+				"name": "BOOKING_ADD1",
+				"type": "String"
+			},
+			{
+				"name": "BOOKING_ADD2",
+				"type": "String"
+			},
+			{
+				"name": "BOOKING_ADD3",
+				"type": "String"
+			},
+			{
+				"name": "BOOKING_STATE",
+				"type": "String"
+			},
+			{
+				"name": "BOOKING_CITY",
+				"type": "String"
+			},
+			{
+				"name": "BOOKING_PIN",
+				"type": "String"
+			},
+			{
+				"name": "EXCHANGE_REQUIRED",
+				"type": "String"
+			},
+			{
+				"name": "EQRY_EXCHG_MODEL_CODE",
+				"type": "String"
+			},
+			{
+				"name": "EQRY_EXCHG_SRC_CODE",
+				"type": "String"
+			},
+			{
+				"name": "EQRY_CORP_NAME",
+				"type": "String"
+			},
+			{
+				"name": "EQRY_EXPCT_PRICE",
+				"type": "String"
+			},
+			{
+				"name": "EQRY_QUOTD_PRICE",
+				"type": "String"
+			},
+			{
+				"name": "EQRY_P_MODL_YEAR",
+				"type": "String"
+			},
+			{
+				"name": "EQRY_EVAL_YN",
+				"type": "String"
+			},
+			{
+				"name": "EQRY_EXCH_DN",
+				"type": "String"
+			},
+			{
+				"name": "EQRY_FINAL_BP",
+				"type": "String"
+			},
+			{
+				"name": "EQRY_CMPN_NO",
+				"type": "String"
+			},
+			{
+				"name": "EQRY_CORP_NO",
+				"type": "String"
+			},
+			{
+				"name": "EQRY_LISTD_CORP",
+				"type": "String"
+			},
+			{
+				"name": "EQRY_CUST_NO",
+				"type": "String"
+			},
+			{
+				"name": "EQRY_DLR_NO",
+				"type": "String"
+			},
+			{
+				"name": "CSPM_BRTH_DATE",
+				"type": "String"
+			},
+			{
+				"name": "REGISTER_CORP",
+				"type": "String"
+			},
+			{
+				"name": "EXISTING_CAR",
+				"type": "String"
+			},
+			{
+				"name": "FINANCE_REQUIRED",
+				"type": "String"
+			},
+			{
+				"name": "BKNG_NO",
+				"type": "String"
+			},
+			{
+				"name": "BOOKING_DATE",
+				"type": "String"
+			},
+			{
+				"name": "BKNG_AMT",
+				"type": "String"
+			},
+			{
+				"name": "BOOKING_STATUS",
+				"type": "String"
+			},
+			{
+				"name": "RCPT_NO",
+				"type": "String"
+			},
+			{
+				"name": "RCPT_AMT",
+				"type": "String"
+			},
+			{
+				"name": "PAYMENT_TYPE",
+				"type": "String"
+			},
+			{
+				"name": "REGISTRATION_NAME",
+				"type": "String"
+			},
+			{
+				"name": "EQRY_SR_NUM_REAL",
+				"type": "String"
+			},
+			{
+				"name": "BOOKING_TYPE",
+				"type": "String"
+			},
+			{
+				"name": "GRP_VRNT_CD",
+				"type": "String"
+			},
+			{
+				"name": "EXT_COLOR_NAME",
+				"type": "String"
+			},
+			{
+				"name": "INT_COLOR_NAME",
+				"type": "String"
+			},
+			{
+				"name": "FINANCIER",
+				"type": "String"
+			},
+			{
+				"name": "MODE_OF_PURCHASE",
+				"type": "String"
+			},
+			{
+				"name": "BOOKING_CREATION_DATE",
+				"type": "String"
+			},
+			{
+				"name": "BOOKING_CREATION_TIME",
+				"type": "String"
+			},
+			{
+				"name": "BOOKING_UPDATE_DATE",
+				"type": "String"
+			},
+			{
+				"name": "BOOKING_UPDATE_TIME",
+				"type": "String"
+			},
+			{
+				"name": "TEST_DRIVE_DATE",
+				"type": "String"
+			},
+			{
+				"name": "REQST_TYPE",
+				"type": "String"
+			},
+			{
+				"name": "ENQUIRY_CATEGORY",
+				"type": "String"
+			},
+			{
+				"name": "VEHICLE_BOOKED_COUNT",
+				"type": "String"
+			},
+			{
+				"name": "LOSS_DATE",
+				"type": "String"
+			},
+			{
+				"name": "LOSS_REMARK",
+				"type": "String"
+			},
+			{
+				"name": "LOSS_REASON",
+				"type": "String"
+			},
+			{
+				"name": "LOSS_DUETO",
+				"type": "String"
+			},
+			{
+				"name": "LOSS_DUETO_DETAIL",
+				"type": "String"
+			},
+			{
+				"name": "TEAM_LEADER",
+				"type": "String"
+			},
+			{
+				"name": "REBKNG_CNT",
+				"type": "String"
+			},
+			{
+				"name": "RCNT_REBKNG_DT",
+				"type": "String"
+			},
+			{
+				"name": "MOB_EMAIL_DATE",
+				"type": "String"
+			},
+			{
+				"name": "DMS_EMAIL_DATE",
+				"type": "String"
+			},
+			{
+				"name": "MOB_DOCK",
+				"type": "String"
+			},
+			{
+				"name": "VRNT_SPEC_CODE",
+				"type": "String"
+			},
+			{
+				"name": "DMS_DOCK",
+				"type": "String"
+			},
+			{
+				"name": "ORDER DATE",
+				"type": "String"
+			},
+			{
+				"name": "ORDER_TYPE",
+				"type": "String"
+			},
+			{
+				"name": "OEM",
+				"type": "String"
+			},
+			{
+				"name": "MODL_MAKER_CODE",
+				"type": "String"
+			},
+			{
+				"name": "MODL_MODEL_CODE",
+				"type": "String"
+			},
+			{
+				"name": "OEM_MODEL",
+				"type": "String"
+			},
+			{
+				"name": "CMM_GRP_CODE",
+				"type": "String"
+			},
+			{
+				"name": "CMM_CODE_NAME",
+				"type": "String"
+			},
+			{
+				"name": "CUDT_JOB_CODE",
+				"type": "String"
+			},
+			{
+				"name": "Occ_Name",
+				"type": "String"
+			}
+		]
+	}
+}
