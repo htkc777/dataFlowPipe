@@ -1,0 +1,9 @@
+{
+	"name": "orderetl101",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "e38cc7eb-3553-43d9-af2e-535dd8c2d742",
+		"tenantId": "acd6ffd5-211f-48a9-80a9-68996e029c8f"
+	}
+}
