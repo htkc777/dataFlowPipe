@@ -104,6 +104,9 @@
 				},
 				{
 					"name": "select7"
+				},
+				{
+					"name": "derivedColumn6"
 				}
 			],
 			"scriptLines": [
@@ -1017,7 +1020,8 @@
 				"          ENSC_GRP_NAME",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select7"
+				"     skipDuplicateMapOutputs: true) ~> select7",
+				"select7 derive(Enquiry_Source = upper(ENSC_GRP_NAME)) ~> derivedColumn6"
 			]
 		}
 	}
