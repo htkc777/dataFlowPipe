@@ -202,6 +202,12 @@
 				},
 				{
 					"name": "select17"
+				},
+				{
+					"name": "join4"
+				},
+				{
+					"name": "select18"
 				}
 			],
 			"scriptLines": [
@@ -1794,7 +1800,18 @@
 				"          Invoice_Cofirmation_Date",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select17"
+				"     skipDuplicateMapOutputs: true) ~> select17",
+				"select16, select17 join(select16@{Dealer_No.} == select17@{Dealer_No.},",
+				"     joinType:'left',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join4",
+				"join4 select(mapColumn(",
+				"          each(match(/* All input columns */ true()),",
+				"               /* Input name */ $$ = $$)",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select18"
 			]
 		}
 	}
