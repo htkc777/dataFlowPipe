@@ -25,25 +25,22 @@
 					"name": "SOBKNGderived"
 				},
 				{
-					"name": "select1"
-				},
-				{
 					"name": "derivedColumn1"
 				},
 				{
-					"name": "select2"
+					"name": "select1"
+				},
+				{
+					"name": "MOBlookup1"
 				},
 				{
 					"name": "MOBDocketDate"
 				},
 				{
-					"name": "select3"
+					"name": "DMSlookup1"
 				},
 				{
-					"name": "lookup1"
-				},
-				{
-					"name": "select4"
+					"name": "select2"
 				}
 			],
 			"scriptLines": [
@@ -247,28 +244,20 @@
 				"          Booking_Source = iif(upper(BKNG_SRC_FLG)=='MOB','Mobile',upper(BKNG_SRC_FLG)),",
 				"          Booking_Source_Type = iif(BKNG_SRC_FLG == 'MOB','MySales',iif(length(BKNG_SRC_FLG)>0,'Online','DMS')),",
 				"          Dealer_Booking = concat(BKNG_DLR_NO,BKNG_NO)) ~> SOBKNGderived",
-				"ROBooking select(mapColumn(",
-				"          BKNG_DLR_NO,",
-				"          BKNG_NO,",
-				"          MOB_EMAIL_DATE,",
-				"          DMS_EMAIL_DATE",
-				"     ),",
-				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select1",
-				"select1 derive(Dealer_Booking = concat(BKNG_DLR_NO,BKNG_NO)) ~> derivedColumn1",
+				"ROBooking derive(Dealer_Booking = concat(BKNG_DLR_NO,BKNG_NO)) ~> derivedColumn1",
 				"derivedColumn1 select(mapColumn(",
 				"          MOB_EMAIL_DATE,",
 				"          DMS_EMAIL_DATE,",
 				"          Dealer_Booking",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select2",
-				"SOBKNGderived, select2 lookup(SOBKNGderived@Dealer_Booking == select2@Dealer_Booking,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"SOBKNGderived, select1 lookup(SOBKNGderived@Dealer_Booking == select1@Dealer_Booking,",
 				"     multiple: false,",
 				"     pickup: 'first',",
 				"     asc(MOB_EMAIL_DATE, false),",
-				"     broadcast: 'auto')~> MOBDocketDate",
-				"MOBDocketDate select(mapColumn(",
+				"     broadcast: 'auto')~> MOBlookup1",
+				"MOBlookup1 select(mapColumn(",
 				"          BKNG_DLR_NO,",
 				"          BKNG_NO,",
 				"          BKNG_CORP_NO,",
@@ -353,18 +342,18 @@
 				"          Booking_Amt,",
 				"          Booking_Source,",
 				"          Booking_Source_Type,",
-				"          {BKNG_DLR_NO&BKNG_NO} = Dealer_Booking,",
+				"          Dealer_Booking = SOBKNGderived@Dealer_Booking,",
 				"          MOB_EMAIL_DATE,",
-				"          Dealer_Booking",
+				"          Dealer_Booking = select1@Dealer_Booking",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select3",
-				"select3, select2 lookup(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
+				"     skipDuplicateMapOutputs: true) ~> MOBDocketDate",
+				"MOBDocketDate, select1 lookup(MOBDocketDate@Dealer_Booking == select1@Dealer_Booking,",
 				"     multiple: false,",
 				"     pickup: 'first',",
 				"     asc(DMS_EMAIL_DATE, false),",
-				"     broadcast: 'auto')~> lookup1",
-				"lookup1 select(mapColumn(",
+				"     broadcast: 'auto')~> DMSlookup1",
+				"DMSlookup1 select(mapColumn(",
 				"          BKNG_DLR_NO,",
 				"          BKNG_NO,",
 				"          BKNG_CORP_NO,",
@@ -449,13 +438,13 @@
 				"          Booking_Amt,",
 				"          Booking_Source,",
 				"          Booking_Source_Type,",
-				"          {BKNG_DLR_NO&BKNG_NO},",
-				"          MOB_EMAIL_DATE = select3@MOB_EMAIL_DATE,",
-				"          Dealer_Booking = select3@Dealer_Booking,",
-				"          DMS_EMAIL_DATE",
+				"          Dealer_Booking = MOBDocketDate@Dealer_Booking,",
+				"          MOB_EMAIL_DATE = MOBDocketDate@MOB_EMAIL_DATE,",
+				"          DMS_EMAIL_DATE,",
+				"          Dealer_Booking = select1@Dealer_Booking",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select4"
+				"     skipDuplicateMapOutputs: true) ~> select2"
 			]
 		}
 	}
