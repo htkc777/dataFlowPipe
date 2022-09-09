@@ -17,6 +17,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "ROBooking"
+				},
+				{
+					"dataset": {
+						"referenceName": "Stage1_Sales_Team_Leader",
+						"type": "DatasetReference"
+					},
+					"name": "S1SalesTeamLeader"
 				}
 			],
 			"sinks": [],
@@ -47,6 +54,12 @@
 				},
 				{
 					"name": "select2"
+				},
+				{
+					"name": "select3"
+				},
+				{
+					"name": "select4"
 				}
 			],
 			"scriptLines": [
@@ -246,6 +259,21 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> ROBooking",
+				"source(output(",
+				"          TEAM_LEADER as string,",
+				"          TEAM_LEADER_JOINING_DATE as string,",
+				"          TEAM_LEADER_LEAVE_DATE as string,",
+				"          KEC as string,",
+				"          KEC_NAME as string,",
+				"          KEC_CODE as string,",
+				"          KEC_JOIN_DATE as string,",
+				"          KEC_LEAVE_DATE as string,",
+				"          EQRY_ENQRY_NO as string,",
+				"          EQRY_DLR_NO as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> S1SalesTeamLeader",
 				"SOBKNG derive(Booking_Amt = iif(isNull(toInteger(BKNG_AMT)), 0, toInteger(BKNG_AMT)),",
 				"          Booking_Source = iif(upper(BKNG_SRC_FLG)=='MOB','Mobile',upper(BKNG_SRC_FLG)),",
 				"          Booking_Source_Type = iif(BKNG_SRC_FLG == 'MOB','MySales',iif(length(BKNG_SRC_FLG)>0,'Online','DMS')),",
@@ -549,7 +577,11 @@
 				"          Booking_Status",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select2"
+				"     skipDuplicateMapOutputs: true) ~> select2",
+				"select4 select(skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select3",
+				"S1SalesTeamLeader select(skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select4"
 			]
 		}
 	}
