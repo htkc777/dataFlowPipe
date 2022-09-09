@@ -56,10 +56,10 @@
 					"name": "select2"
 				},
 				{
-					"name": "select3"
+					"name": "derivedColumn3"
 				},
 				{
-					"name": "select4"
+					"name": "select3"
 				}
 			],
 			"scriptLines": [
@@ -479,9 +479,7 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> DMSDocketDate",
-				"DMSDocketDate derive(Booking_Date = toString(toTimestamp(toString(BKNG_DATE), 'yyyy-MM-dd') , 'dd/MM/YYYY')\r",
-				"\r",
-				",",
+				"DMSDocketDate derive(Booking_Date = toString(toTimestamp(toString(BKNG_DATE), 'yyyy-MM-dd') , 'dd/MM/YYYY'),",
 				"          Link_Date = BKNG_DATE,",
 				"          Booking_Status = iif(Booking_Amt==0,'Without Payment','Payment')) ~> derivedColumn2",
 				"derivedColumn2 select(mapColumn(",
@@ -578,10 +576,24 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select2",
-				"select4 select(skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select3",
-				"S1SalesTeamLeader select(skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select4"
+				"select3 derive(Team_Leader_Name = upper(substringIndex(substringIndex(TEAM_LEADER,';',2),';',-1)),",
+				"          Team_Leader_Code = substringIndex(TEAM_LEADER,';',1),",
+				"          {Active/Inactive} = upper(substringIndex(TEAM_LEADER,';',-1)),",
+				"          KEC = upper(KEC_NAME)) ~> derivedColumn3",
+				"S1SalesTeamLeader select(mapColumn(",
+				"          TEAM_LEADER,",
+				"          Team_leader_Joining_Date = TEAM_LEADER_JOINING_DATE,",
+				"          Team_leader_Leave_Date = TEAM_LEADER_LEAVE_DATE,",
+				"          KEC_Short_Code = KEC,",
+				"          KEC_NAME,",
+				"          KEC_Long_Code = KEC_CODE,",
+				"          KEC_Join_Date = KEC_JOIN_DATE,",
+				"          KEC_Leave_Date = KEC_LEAVE_DATE,",
+				"          {Link_Enquiry_No.} = EQRY_ENQRY_NO,",
+				"          {Dealer_No.} = EQRY_DLR_NO",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select3"
 			]
 		}
 	}
