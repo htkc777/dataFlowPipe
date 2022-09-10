@@ -1815,7 +1815,7 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select18",
-				"select18 derive() ~> derivedColumn6"
+				"select18 derive(Pending_Bucket = ERROR_FUNCTION('')) ~> derivedColumn6"
 			]
 		}
 	}
