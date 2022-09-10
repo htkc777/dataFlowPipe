@@ -208,6 +208,9 @@
 				},
 				{
 					"name": "select18"
+				},
+				{
+					"name": "derivedColumn6"
 				}
 			],
 			"scriptLines": [
@@ -775,7 +778,7 @@
 				"          Booking_Source,",
 				"          Booking_Source_Type,",
 				"          Dealer_Booking = SOBKNGderived@Dealer_Booking,",
-				"          MOB_EMAIL_DATE,",
+				"          MOB_Docket_Date = MOB_EMAIL_DATE,",
 				"          Dealer_Booking = select1@Dealer_Booking",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
@@ -871,8 +874,8 @@
 				"          Booking_Source,",
 				"          Booking_Source_Type,",
 				"          Dealer_Booking = MOBDocketDate@Dealer_Booking,",
-				"          MOB_EMAIL_DATE = MOBDocketDate@MOB_EMAIL_DATE,",
-				"          DMS_EMAIL_DATE,",
+				"          MOB_EMAIL_DATE = MOB_Docket_Date,",
+				"          DMS_Docket_Date = DMS_EMAIL_DATE,",
 				"          Dealer_Booking = select1@Dealer_Booking",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
@@ -967,7 +970,7 @@
 				"          Booking_Source_Type,",
 				"          Dealer_Booking,",
 				"          MOB_EMAIL_DATE,",
-				"          DMS_EMAIL_DATE,",
+				"          DMS_EMAIL_DATE = DMS_Docket_Date,",
 				"          Booking_Date,",
 				"          Link_Date,",
 				"          Booking_Status",
@@ -1693,8 +1696,8 @@
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> join2",
 				"join2 select(mapColumn(",
-				"          each(match(/* All input columns */ true()),",
-				"               /* Input name */ $$ = $$)",
+				"          each(match(/* All input columns */true()),",
+				"               /* Input name */$$ = $$)",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select14",
@@ -1726,8 +1729,8 @@
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> join3",
 				"join3 select(mapColumn(",
-				"          each(match(/* All input columns */ true()),",
-				"               /* Input name */ $$ = $$)",
+				"          each(match(/* All input columns */true()),",
+				"               /* Input name */$$ = $$)",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select16",
@@ -1811,7 +1814,8 @@
 				"               /* Input name */ $$ = $$)",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select18"
+				"     skipDuplicateMapOutputs: true) ~> select18",
+				"select18 derive() ~> derivedColumn6"
 			]
 		}
 	}
