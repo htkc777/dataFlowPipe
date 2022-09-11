@@ -1696,8 +1696,8 @@
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> join2",
 				"join2 select(mapColumn(",
-				"          each(match(/* All input columns */ true()),",
-				"               /* Input name */ $$ = $$)",
+				"          each(match(/* All input columns */true()),",
+				"               /* Input name */$$ = $$)",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select14",
@@ -1729,8 +1729,8 @@
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> join3",
 				"join3 select(mapColumn(",
-				"          each(match(/* All input columns */ true()),",
-				"               /* Input name */ $$ = $$)",
+				"          each(match(/* All input columns */true()),",
+				"               /* Input name */$$ = $$)",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select16",
@@ -1810,12 +1810,12 @@
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> join4",
 				"join4 select(mapColumn(",
-				"          each(match(/* All input columns */ true()),",
-				"               /* Input name */ $$ = $$)",
+				"          each(match(/* All input columns */true()),",
+				"               /* Input name */$$ = $$)",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select18",
-				"select18 derive(Pending_Bucket = ERROR_FUNCTION('')) ~> derivedColumn6"
+				"select18 derive(Pending = iif(EQRY_STAT=='20','Pending Booking',iif(EQRY_STAT=='30','Pending Booking',iif(EQRY_STAT=='40' && length(trim(INVC_CNFM_DATE))<1,'Pending Booking','Booking')))) ~> derivedColumn6"
 			]
 		}
 	}
