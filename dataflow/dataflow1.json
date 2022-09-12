@@ -1626,7 +1626,7 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select17",
-				"select16, select17 join(select16@{Dealer_No.} == select17@{Dealer_No.},",
+				"select16, select17 join(Dealer_No == {Dealer_No.},",
 				"     joinType:'left',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
