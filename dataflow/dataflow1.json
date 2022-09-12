@@ -1323,7 +1323,7 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select13",
-				"select13, EnquiryCategoryType join(select13@{Dealer_No.} == EnquiryCategoryType@{Dealer_No.},",
+				"select13, EnquiryCategoryType join(Dealer_No == {Dealer_No.},",
 				"     joinType:'left',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
