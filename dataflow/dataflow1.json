@@ -1761,7 +1761,7 @@
 				"          INVC_CNCL_YN,",
 				"          INVC_CNCL_DATE,",
 				"          INVC_CNCL_RMRKS,",
-				"          {} = {Booking_No.},",
+				"          {Booking_No.},",
 				"          INVC_CRTE_DTIME,",
 				"          INVC_CRTE_EMP_NO,",
 				"          INVC_UPDT_DTIME,",
