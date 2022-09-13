@@ -1960,7 +1960,7 @@
 				"          Pending,",
 				"          {Int.Colour_Code},",
 				"          Enquiry_Type2,",
-				"          Enquiry_Status",
+				"          Lead_Status = Enquiry_Status",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select19"
