@@ -1,0 +1,159 @@
+{
+	"name": "DelimitedText2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileSystem": "sink101"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Trader No",
+				"type": "String"
+			},
+			{
+				"name": "Order No",
+				"type": "String"
+			},
+			{
+				"name": "Company No",
+				"type": "String"
+			},
+			{
+				"name": "ORD_EMP_NO",
+				"type": "String"
+			},
+			{
+				"name": "Customer No.",
+				"type": "String"
+			},
+			{
+				"name": "ORD_CRTE_DTIME",
+				"type": "String"
+			},
+			{
+				"name": "Order Amt",
+				"type": "String"
+			},
+			{
+				"name": "Order_Source",
+				"type": "String"
+			},
+			{
+				"name": "Order_Source_Type",
+				"type": "String"
+			},
+			{
+				"name": "Booking_Date",
+				"type": "String"
+			},
+			{
+				"name": "Link_Date",
+				"type": "String"
+			},
+			{
+				"name": "Booking_Status",
+				"type": "String"
+			},
+			{
+				"name": "TEAM_LEADER",
+				"type": "String"
+			},
+			{
+				"name": "Team_leader_Joining_Date",
+				"type": "String"
+			},
+			{
+				"name": "Team_leader_Leave_Date",
+				"type": "String"
+			},
+			{
+				"name": "KEC_Join_Date",
+				"type": "String"
+			},
+			{
+				"name": "KEC_Leave_Date",
+				"type": "String"
+			},
+			{
+				"name": "Team_Leader_Name",
+				"type": "String"
+			},
+			{
+				"name": "Team_Leader_Code",
+				"type": "String"
+			},
+			{
+				"name": "Active/Inactive",
+				"type": "String"
+			},
+			{
+				"name": "Lead No",
+				"type": "String"
+			},
+			{
+				"name": "Lead_TYPE",
+				"type": "String"
+			},
+			{
+				"name": "Lead_EMP_NO",
+				"type": "String"
+			},
+			{
+				"name": "Lead_CRTE_DTIME",
+				"type": "String"
+			},
+			{
+				"name": "Lead source type",
+				"type": "String"
+			},
+			{
+				"name": "Lead_Sub_Source_Name",
+				"type": "String"
+			},
+			{
+				"name": "Lead_Source",
+				"type": "String"
+			},
+			{
+				"name": "Lead_Category_Type",
+				"type": "String"
+			},
+			{
+				"name": "Booking_Qty",
+				"type": "String"
+			},
+			{
+				"name": "Invoice_No",
+				"type": "String"
+			},
+			{
+				"name": "INVC_TYPE",
+				"type": "String"
+			},
+			{
+				"name": "Invoice_Date",
+				"type": "String"
+			},
+			{
+				"name": "Delivery_Date",
+				"type": "String"
+			},
+			{
+				"name": "Lead_Status",
+				"type": "String"
+			}
+		]
+	}
+}
