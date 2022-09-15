@@ -1,0 +1,3770 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "orderetl101"
+		},
+		"AzureDataLakeStorage1_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorage1'"
+		},
+		"AzureDataLakeStorage1_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://sourcedata101.dfs.core.windows.net/"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureDataLakeStorage1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('AzureDataLakeStorage1_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('AzureDataLakeStorage1_accountKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DelimitedText1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileSystem": "sink101"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/S1Sales_AfterSales_CRM_SCEQRY_TB')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "Stage1_Sales_AfterSales_CRM_SCEQRY_TB.csv",
+						"fileSystem": "ordertables101"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "EQRY_DLR_NO",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_ENQRY_NO",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_CORP_NO",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_CMPN_NO",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_DATE",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_SRC_CODE",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_STAT",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_TYPE",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_TEST_DRVR_DATE",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_FNCE_YN",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_FNCER_CODE",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_LOAN_AMT",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_TENOR_MNTHS",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_EXCHG_YN",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_EXCHG_MODEL_CODE",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_EXCHG_SRC_CODE",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_EXPCT_PRICE",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_QUOTD_PRICE",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_CLSE_DATE",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_CLSE_TYPE",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_CLSE_RMRKS",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_EMP_NO",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_CUST_NO",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_LISTD_CORP",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_CORP_NAME",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_RFRL_BY",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_CRTE_DTIME",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_CRTE_EMP_NO",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_UPDT_DTIME",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_UPDT_EMP_NO",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_EQFU_SEQ",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_UPDT_DATE",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_TEST_DRIVE_YN",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_SR_NUM",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_SR_TYPE",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_FLW_STATUS",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_ASSOCIATE_ID",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_RSO_ID",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_FUEL_TYPE",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_PRESENT_CAR_YN",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_MAKER_CODE",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_TD_VIN",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_CUST_BLOCK",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_BULK_SALE",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_P_MODL_YEAR",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_CLS_VAL",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_INCOM_GROUP",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_REFL_ID",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_REFL_PUNCH_DLR_NO",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_PLAN_DATE",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_ATIVT_NAME_CODE",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_ATIVT_LOC_CODE",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_NEWCAR_YN",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_FCALL_EMP_NO",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_APNT_DTIME",
+						"type": "String"
+					},
+					{
+						"name": "VIST_DTIME",
+						"type": "String"
+					},
+					{
+						"name": "LEAV_DTIME",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_CTGR_CODE",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_SUB_SRC_CODE",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_CLSE_GRP_TYPE",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_BUDG_TYPE",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_CERT_TYPE",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_UC_SC_EMP_NO",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_TDRIVE_RMRKS",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_VC_RMRKS",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_REQ_TYPE",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_EMAILSEND_YN",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_SRC_FLG",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_SR_NUM_REAL",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_ENG_TYP",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_TRNSM_TYP",
+						"type": "String"
+					},
+					{
+						"name": "SOQ_TAG_YN",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_EVAL_YN",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_EXCH_DN",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_FINAL_BP",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_CAMPGN_NO",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Stage1_Sales_AfterSales_CMM_CMCDTB')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "Stage1_Sales_AfterSales_CMM_CMCD_TB.csv",
+						"fileSystem": "ordertables101"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "CMPN_NO",
+						"type": "String"
+					},
+					{
+						"name": "CORP_NO",
+						"type": "String"
+					},
+					{
+						"name": "CMM_GRP_CODE",
+						"type": "String"
+					},
+					{
+						"name": "CMM_CODE",
+						"type": "String"
+					},
+					{
+						"name": "CMM_CODE_NAME",
+						"type": "String"
+					},
+					{
+						"name": "REMARK_1",
+						"type": "String"
+					},
+					{
+						"name": "REMARK_2",
+						"type": "String"
+					},
+					{
+						"name": "REMARK_3",
+						"type": "String"
+					},
+					{
+						"name": "REMARK_4",
+						"type": "String"
+					},
+					{
+						"name": "REMARK_5",
+						"type": "String"
+					},
+					{
+						"name": "USED_YN",
+						"type": "String"
+					},
+					{
+						"name": "PRIORITY",
+						"type": "String"
+					},
+					{
+						"name": "CRTE_EMP_NO",
+						"type": "String"
+					},
+					{
+						"name": "CRTE_DTIME",
+						"type": "String"
+					},
+					{
+						"name": "UPDT_EMP_NO",
+						"type": "String"
+					},
+					{
+						"name": "UPDT_DTIME",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Stage1_Sales_CRM_SCEQCR_TB')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "Stage1_Sales_CRM_SCEQCR_TB.csv",
+						"fileSystem": "ordertables101"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "EQCR_DLR_NO",
+						"type": "String"
+					},
+					{
+						"name": "EQCR_ENQRY_NO",
+						"type": "String"
+					},
+					{
+						"name": "EQCR_SEQ",
+						"type": "String"
+					},
+					{
+						"name": "EQCR_CORP_NO",
+						"type": "String"
+					},
+					{
+						"name": "EQCR_CMPN_NO",
+						"type": "String"
+					},
+					{
+						"name": "EQCR_MODEL_CODE",
+						"type": "String"
+					},
+					{
+						"name": "EQCR_VRNT_CODE",
+						"type": "String"
+					},
+					{
+						"name": "EQCR_COLOR_CODE",
+						"type": "String"
+					},
+					{
+						"name": "EQCR_QTY",
+						"type": "String"
+					},
+					{
+						"name": "EQCR_CRTE_DTIME",
+						"type": "String"
+					},
+					{
+						"name": "EQCR_CRTE_EMP_NO",
+						"type": "String"
+					},
+					{
+						"name": "EQCR_UPDT_DTIME",
+						"type": "String"
+					},
+					{
+						"name": "EQCR_UPDT_EMP_NO",
+						"type": "String"
+					},
+					{
+						"name": "EQCR_INTCOLOR_CODE",
+						"type": "String"
+					},
+					{
+						"name": "EQCR_MAKER_CODE",
+						"type": "String"
+					},
+					{
+						"name": "EQCR_INT_COLOR_CODE",
+						"type": "String"
+					},
+					{
+						"name": "EQCR_QUOTED_PRICE",
+						"type": "String"
+					},
+					{
+						"name": "EQCR_EXPECTED_PRICE",
+						"type": "String"
+					},
+					{
+						"name": "EQCR_FUEL_TYPE",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Stage1_Sales_CRM_SDENSC_TB')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "Stage1_Sales_CRM_SDENSC_TB.csv",
+						"fileSystem": "ordertables101"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "ENSC_CMPN_NO",
+						"type": "String"
+					},
+					{
+						"name": "ENSC_CORP_NO",
+						"type": "String"
+					},
+					{
+						"name": "ENSC_GRP_CODE",
+						"type": "String"
+					},
+					{
+						"name": "ENSC_CODE",
+						"type": "String"
+					},
+					{
+						"name": "ENSC_GRP_NAME",
+						"type": "String"
+					},
+					{
+						"name": "ENSC_NAME",
+						"type": "String"
+					},
+					{
+						"name": "ENSC_PRIORITY",
+						"type": "String"
+					},
+					{
+						"name": "ENSC_DELYN",
+						"type": "String"
+					},
+					{
+						"name": "ENSC_CRTE_EMP_NO",
+						"type": "String"
+					},
+					{
+						"name": "ENSC_CRTE_DTIME",
+						"type": "String"
+					},
+					{
+						"name": "ENSC_UPDT_EMP_NO",
+						"type": "String"
+					},
+					{
+						"name": "ENSC_UPDT_DTIME",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Stage1_Sales_RO_Booking')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "Stage1_Sales_RO_Booking.csv",
+						"fileSystem": "ordertables101"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Occup_Key",
+						"type": "String"
+					},
+					{
+						"name": "CMM_CODE",
+						"type": "String"
+					},
+					{
+						"name": "Comp_key",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_MAKER_CODE",
+						"type": "String"
+					},
+					{
+						"name": "Join_KEY",
+						"type": "String"
+					},
+					{
+						"name": "CSPM_CHRG_SALES_EMP_NO",
+						"type": "String"
+					},
+					{
+						"name": "Booking Month",
+						"type": "String"
+					},
+					{
+						"name": "REGION",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_DLR_NO",
+						"type": "String"
+					},
+					{
+						"name": "TRADE_NAME",
+						"type": "String"
+					},
+					{
+						"name": "DEALER_CITY",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_ENQRY_NO",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_PRESENT_CAR_YN",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_DATE",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_STAT",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_CLSE_DATE",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_SRC_CODE",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_CTGR_CODE",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_SUB_SRC_CODE",
+						"type": "String"
+					},
+					{
+						"name": "CSPM_CUST_NO",
+						"type": "String"
+					},
+					{
+						"name": "CSPM_CUST_FULL_NAME",
+						"type": "String"
+					},
+					{
+						"name": "M_MOBL_PHONE_NO",
+						"type": "String"
+					},
+					{
+						"name": "CSPM_EMAIL",
+						"type": "String"
+					},
+					{
+						"name": "CUSTOMER_TYPE",
+						"type": "String"
+					},
+					{
+						"name": "MODEL",
+						"type": "String"
+					},
+					{
+						"name": "ENGINE_TYPE",
+						"type": "String"
+					},
+					{
+						"name": "TRANSMISSION",
+						"type": "String"
+					},
+					{
+						"name": "TRANSMISSION1",
+						"type": "String"
+					},
+					{
+						"name": "KEC",
+						"type": "String"
+					},
+					{
+						"name": "KEC_CODE",
+						"type": "String"
+					},
+					{
+						"name": "ADDR",
+						"type": "String"
+					},
+					{
+						"name": "PIN_CODE",
+						"type": "String"
+					},
+					{
+						"name": "CITY_CODE",
+						"type": "String"
+					},
+					{
+						"name": "STCD_CODE",
+						"type": "String"
+					},
+					{
+						"name": "BOOKING_ADD1",
+						"type": "String"
+					},
+					{
+						"name": "BOOKING_ADD2",
+						"type": "String"
+					},
+					{
+						"name": "BOOKING_ADD3",
+						"type": "String"
+					},
+					{
+						"name": "BOOKING_STATE",
+						"type": "String"
+					},
+					{
+						"name": "BOOKING_CITY",
+						"type": "String"
+					},
+					{
+						"name": "BOOKING_PIN",
+						"type": "String"
+					},
+					{
+						"name": "EXCHANGE_REQUIRED",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_EXCHG_MODEL_CODE",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_EXCHG_SRC_CODE",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_CORP_NAME",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_EXPCT_PRICE",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_QUOTD_PRICE",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_P_MODL_YEAR",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_EVAL_YN",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_EXCH_DN",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_FINAL_BP",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_CMPN_NO",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_CORP_NO",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_LISTD_CORP",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_CUST_NO",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_DLR_NO",
+						"type": "String"
+					},
+					{
+						"name": "CSPM_BRTH_DATE",
+						"type": "String"
+					},
+					{
+						"name": "REGISTER_CORP",
+						"type": "String"
+					},
+					{
+						"name": "EXISTING_CAR",
+						"type": "String"
+					},
+					{
+						"name": "FINANCE_REQUIRED",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_NO",
+						"type": "String"
+					},
+					{
+						"name": "BOOKING_DATE",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_AMT",
+						"type": "String"
+					},
+					{
+						"name": "BOOKING_STATUS",
+						"type": "String"
+					},
+					{
+						"name": "RCPT_NO",
+						"type": "String"
+					},
+					{
+						"name": "RCPT_AMT",
+						"type": "String"
+					},
+					{
+						"name": "PAYMENT_TYPE",
+						"type": "String"
+					},
+					{
+						"name": "REGISTRATION_NAME",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_SR_NUM_REAL",
+						"type": "String"
+					},
+					{
+						"name": "BOOKING_TYPE",
+						"type": "String"
+					},
+					{
+						"name": "GRP_VRNT_CD",
+						"type": "String"
+					},
+					{
+						"name": "EXT_COLOR_NAME",
+						"type": "String"
+					},
+					{
+						"name": "INT_COLOR_NAME",
+						"type": "String"
+					},
+					{
+						"name": "FINANCIER",
+						"type": "String"
+					},
+					{
+						"name": "MODE_OF_PURCHASE",
+						"type": "String"
+					},
+					{
+						"name": "BOOKING_CREATION_DATE",
+						"type": "String"
+					},
+					{
+						"name": "BOOKING_CREATION_TIME",
+						"type": "String"
+					},
+					{
+						"name": "BOOKING_UPDATE_DATE",
+						"type": "String"
+					},
+					{
+						"name": "BOOKING_UPDATE_TIME",
+						"type": "String"
+					},
+					{
+						"name": "TEST_DRIVE_DATE",
+						"type": "String"
+					},
+					{
+						"name": "REQST_TYPE",
+						"type": "String"
+					},
+					{
+						"name": "ENQUIRY_CATEGORY",
+						"type": "String"
+					},
+					{
+						"name": "VEHICLE_BOOKED_COUNT",
+						"type": "String"
+					},
+					{
+						"name": "LOSS_DATE",
+						"type": "String"
+					},
+					{
+						"name": "LOSS_REMARK",
+						"type": "String"
+					},
+					{
+						"name": "LOSS_REASON",
+						"type": "String"
+					},
+					{
+						"name": "LOSS_DUETO",
+						"type": "String"
+					},
+					{
+						"name": "LOSS_DUETO_DETAIL",
+						"type": "String"
+					},
+					{
+						"name": "TEAM_LEADER",
+						"type": "String"
+					},
+					{
+						"name": "REBKNG_CNT",
+						"type": "String"
+					},
+					{
+						"name": "RCNT_REBKNG_DT",
+						"type": "String"
+					},
+					{
+						"name": "MOB_EMAIL_DATE",
+						"type": "String"
+					},
+					{
+						"name": "DMS_EMAIL_DATE",
+						"type": "String"
+					},
+					{
+						"name": "MOB_DOCK",
+						"type": "String"
+					},
+					{
+						"name": "VRNT_SPEC_CODE",
+						"type": "String"
+					},
+					{
+						"name": "DMS_DOCK",
+						"type": "String"
+					},
+					{
+						"name": "ORDER DATE",
+						"type": "String"
+					},
+					{
+						"name": "ORDER_TYPE",
+						"type": "String"
+					},
+					{
+						"name": "OEM",
+						"type": "String"
+					},
+					{
+						"name": "MODL_MAKER_CODE",
+						"type": "String"
+					},
+					{
+						"name": "MODL_MODEL_CODE",
+						"type": "String"
+					},
+					{
+						"name": "OEM_MODEL",
+						"type": "String"
+					},
+					{
+						"name": "CMM_GRP_CODE",
+						"type": "String"
+					},
+					{
+						"name": "CMM_CODE_NAME",
+						"type": "String"
+					},
+					{
+						"name": "CUDT_JOB_CODE",
+						"type": "String"
+					},
+					{
+						"name": "Occ_Name",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Stage1_Sales_SAL_SOBKNG_TB')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "Stage1_Sales_SAL_SOBKNG_TB.csv",
+						"fileSystem": "ordertables101"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "BKNG_DLR_NO",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_NO",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_CORP_NO",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_CMPN_NO",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_DATE",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_MODEL_CODE",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_VRNT_CODE",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_COLOR_CODE",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_EXPCT_DLVRY_DATE",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_VRNT_PRICE",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_AMT",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_RCPT_TOTAL_AMT",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_RCPT_CMPLT_YN",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_ALCN_DATE",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_ALCN_VIN",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_FNCE_TYPE",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_FNCE_YN",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_FNCER_CODE",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_DSA_NAME",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_LOAN_AMT",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_TENOR_NMTHS",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_FILE_NO",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_DO_NO",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_DO_AMT",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_DO_DATE",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_IFA_AMT",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_INVGT_DATE",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_FLGN_DATE",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_PADS_DATE",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_FNLA_DATE",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_INVGT_STAT",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_CNCL_TYPE",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_CNCL_DATE",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_CNCL_RMRKS",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_ENQRY_NO",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_EMP_NO",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_CUST_NO",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_CRTE_DTIME",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_CRTE_EMP_NO",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_UPDT_DTIME",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_UPDT_EMP_NO",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_RADS_DATE",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_DO_ISSD_BY",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_DO_CMMT_PMNT_DATE",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_DO_ISSR_NAME",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_DBRS_DATE",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_EXPTD_DBRS_DATE",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_CMTD_DLVRY_DATE",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_RACK_RATE",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_DSA_CMSN",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_BRKR_PYMT_TYPE",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_BRKR_PYMT_AMT",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_SALE_TYPE",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_ADVNC_EMI",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_IFA_DATE",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_BASIC_PRICE",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_TAX_PRCNT",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_EDCE_PRCNT",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_HYPO_NAME",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_RFND_TOTAL_AMT",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_CGST_PRCNT",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_SGST_PRCNT",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_IGST_PRCNT",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_INTCOLOR_CODE",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_BILL_TO_NAME",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_BILL_TO_ADDR",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_BILL_TO_STATE",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_BILL_TO_CITY",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_BILL_TO_TEHSIL",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_BILL_TO_VILLAGE",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_BILL_TO_PIN",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_SHIP_TO_NAME",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_SHIP_TO_ADDR",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_SHIP_TO_STATE",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_SHIP_TO_CITY",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_SHIP_TO_TEHSIL",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_SHIP_TO_VILLAGE",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_SHIP_TO_PIN",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_FINCR_BRANCH_NM",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_RMRKS",
+						"type": "String"
+					},
+					{
+						"name": "BKNG_SRC_FLG",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Stage1_Sales_SAL_SWINVC_TB')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "Stage1_Sales_SAL_SWINVC_TB.csv",
+						"fileSystem": "ordertables101"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "INVC_DLR_NO",
+						"type": "String"
+					},
+					{
+						"name": "INVC_NO",
+						"type": "String"
+					},
+					{
+						"name": "INVC_CORP_NO",
+						"type": "String"
+					},
+					{
+						"name": "INVC_CMPN_NO",
+						"type": "String"
+					},
+					{
+						"name": "INVC_TYPE",
+						"type": "String"
+					},
+					{
+						"name": "INVC_CNFM_YN",
+						"type": "String"
+					},
+					{
+						"name": "INVC_CNFM_DATE",
+						"type": "String"
+					},
+					{
+						"name": "INVC_DATE",
+						"type": "String"
+					},
+					{
+						"name": "INVC_INSR_YN",
+						"type": "String"
+					},
+					{
+						"name": "INVC_INSR_AMT",
+						"type": "String"
+					},
+					{
+						"name": "INVC_INSR_DATE",
+						"type": "String"
+					},
+					{
+						"name": "INVC_INSR_TYPE",
+						"type": "String"
+					},
+					{
+						"name": "INVC_INSR_NO",
+						"type": "String"
+					},
+					{
+						"name": "INVC_RGSTN_NO",
+						"type": "String"
+					},
+					{
+						"name": "INVC_RGSTN_DATE",
+						"type": "String"
+					},
+					{
+						"name": "INVC_DLVRY_DATE",
+						"type": "String"
+					},
+					{
+						"name": "INVC_ADDR1",
+						"type": "String"
+					},
+					{
+						"name": "INVC_ADDR2",
+						"type": "String"
+					},
+					{
+						"name": "INVC_ADDR3",
+						"type": "String"
+					},
+					{
+						"name": "INVC_RGN_CODE",
+						"type": "String"
+					},
+					{
+						"name": "INVC_STCD_CODE",
+						"type": "String"
+					},
+					{
+						"name": "INVC_CITY_CODE",
+						"type": "String"
+					},
+					{
+						"name": "INVC_LCTN_CODE",
+						"type": "String"
+					},
+					{
+						"name": "INVC_PIN_CODE",
+						"type": "String"
+					},
+					{
+						"name": "INVC_CNCL_YN",
+						"type": "String"
+					},
+					{
+						"name": "INVC_CNCL_DATE",
+						"type": "String"
+					},
+					{
+						"name": "INVC_CNCL_RMRKS",
+						"type": "String"
+					},
+					{
+						"name": "INVC_BKNG_NO",
+						"type": "String"
+					},
+					{
+						"name": "INVC_CRTE_DTIME",
+						"type": "String"
+					},
+					{
+						"name": "INVC_CRTE_EMP_NO",
+						"type": "String"
+					},
+					{
+						"name": "INVC_UPDT_DTIME",
+						"type": "String"
+					},
+					{
+						"name": "INVC_UPDT_EMP_NO",
+						"type": "String"
+					},
+					{
+						"name": "INVC_ACTRL_USR_YN",
+						"type": "String"
+					},
+					{
+						"name": "INVC_DN_DATE",
+						"type": "String"
+					},
+					{
+						"name": "INVC_DLVRY_CNFM_YN",
+						"type": "String"
+					},
+					{
+						"name": "INVC_CC_REQ",
+						"type": "String"
+					},
+					{
+						"name": "INVC_CC_REASON",
+						"type": "String"
+					},
+					{
+						"name": "INVC_CC_RDATE",
+						"type": "String"
+					},
+					{
+						"name": "INVC_CC_RMRKS",
+						"type": "String"
+					},
+					{
+						"name": "INVC_CC_RA_YN",
+						"type": "String"
+					},
+					{
+						"name": "INVC_CC_STATUS",
+						"type": "String"
+					},
+					{
+						"name": "INVC_CC_REQ_VERSION",
+						"type": "String"
+					},
+					{
+						"name": "INVC_HMIL_EMP_CODE",
+						"type": "String"
+					},
+					{
+						"name": "INVC_ENQRY_NO",
+						"type": "String"
+					},
+					{
+						"name": "INVC_REGI_FILE_DOC_NO",
+						"type": "String"
+					},
+					{
+						"name": "INVC_DLVRY_FILE_DOC_NO",
+						"type": "String"
+					},
+					{
+						"name": "INVC_REGI_CUST_NO",
+						"type": "String"
+					},
+					{
+						"name": "INVC_REGI_RELAT_SHIP",
+						"type": "String"
+					},
+					{
+						"name": "INVC_VIN_NO",
+						"type": "String"
+					},
+					{
+						"name": "INVC_BASIC_PRCE",
+						"type": "String"
+					},
+					{
+						"name": "INVC_VRNT_PRCE",
+						"type": "String"
+					},
+					{
+						"name": "INVC_ADVNC_EMI",
+						"type": "String"
+					},
+					{
+						"name": "INVC_LOAN_AMT",
+						"type": "String"
+					},
+					{
+						"name": "INVC_WTYNLTY_CFC_YN",
+						"type": "String"
+					},
+					{
+						"name": "INVC_EQCR_SEQ",
+						"type": "String"
+					},
+					{
+						"name": "INVC_ALCN_DATE",
+						"type": "String"
+					},
+					{
+						"name": "INVC_SCHEME_YN",
+						"type": "String"
+					},
+					{
+						"name": "INVC_MYKIA",
+						"type": "String"
+					},
+					{
+						"name": "INVC_MYKIA_REG_DATE",
+						"type": "String"
+					},
+					{
+						"name": "INVC_MK_VINLINK_DT",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Stage1_Sales_Team_Leader')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "Sales_Team_Leader.csv",
+						"fileSystem": "ordertables101"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "TEAM_LEADER",
+						"type": "String"
+					},
+					{
+						"name": "TEAM_LEADER_JOINING_DATE",
+						"type": "String"
+					},
+					{
+						"name": "TEAM_LEADER_LEAVE_DATE",
+						"type": "String"
+					},
+					{
+						"name": "KEC",
+						"type": "String"
+					},
+					{
+						"name": "KEC_NAME",
+						"type": "String"
+					},
+					{
+						"name": "KEC_CODE",
+						"type": "String"
+					},
+					{
+						"name": "KEC_JOIN_DATE",
+						"type": "String"
+					},
+					{
+						"name": "KEC_LEAVE_DATE",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_ENQRY_NO",
+						"type": "String"
+					},
+					{
+						"name": "EQRY_DLR_NO",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dataflow1')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "Stage1_Sales_SAL_SOBKNG_TB",
+								"type": "DatasetReference"
+							},
+							"name": "SOBKNG"
+						},
+						{
+							"dataset": {
+								"referenceName": "Stage1_Sales_RO_Booking",
+								"type": "DatasetReference"
+							},
+							"name": "ROBooking"
+						},
+						{
+							"dataset": {
+								"referenceName": "Stage1_Sales_Team_Leader",
+								"type": "DatasetReference"
+							},
+							"name": "S1SalesTeamLeader"
+						},
+						{
+							"dataset": {
+								"referenceName": "S1Sales_AfterSales_CRM_SCEQRY_TB",
+								"type": "DatasetReference"
+							},
+							"name": "CRMSCEQRY"
+						},
+						{
+							"dataset": {
+								"referenceName": "Stage1_Sales_CRM_SDENSC_TB",
+								"type": "DatasetReference"
+							},
+							"name": "SDENSCTB"
+						},
+						{
+							"dataset": {
+								"referenceName": "Stage1_Sales_AfterSales_CMM_CMCDTB",
+								"type": "DatasetReference"
+							},
+							"name": "CMCDTB"
+						},
+						{
+							"dataset": {
+								"referenceName": "Stage1_Sales_AfterSales_CMM_CMCDTB",
+								"type": "DatasetReference"
+							},
+							"name": "CMCDTB1"
+						},
+						{
+							"dataset": {
+								"referenceName": "Stage1_Sales_AfterSales_CMM_CMCDTB",
+								"type": "DatasetReference"
+							},
+							"name": "CMCDTB2"
+						},
+						{
+							"dataset": {
+								"referenceName": "Stage1_Sales_CRM_SCEQCR_TB",
+								"type": "DatasetReference"
+							},
+							"name": "SCEQCR"
+						},
+						{
+							"dataset": {
+								"referenceName": "Stage1_Sales_SAL_SWINVC_TB",
+								"type": "DatasetReference"
+							},
+							"name": "SWINVCTB"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "DelimitedText1",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "SOBKNGderived"
+						},
+						{
+							"name": "derivedColumn1"
+						},
+						{
+							"name": "select1"
+						},
+						{
+							"name": "MOBlookup1"
+						},
+						{
+							"name": "MOBDocketDate"
+						},
+						{
+							"name": "DMSlookup1"
+						},
+						{
+							"name": "DMSDocketDate"
+						},
+						{
+							"name": "derivedColumn2"
+						},
+						{
+							"name": "select2"
+						},
+						{
+							"name": "derivedColumn3"
+						},
+						{
+							"name": "select3"
+						},
+						{
+							"name": "join1"
+						},
+						{
+							"name": "derivedColumn4"
+						},
+						{
+							"name": "select4"
+						},
+						{
+							"name": "filter1"
+						},
+						{
+							"name": "select5"
+						},
+						{
+							"name": "lookup1"
+						},
+						{
+							"name": "select6"
+						},
+						{
+							"name": "EnquirySubSourceName"
+						},
+						{
+							"name": "lookup2"
+						},
+						{
+							"name": "select7"
+						},
+						{
+							"name": "EnquirySource"
+						},
+						{
+							"name": "filter2"
+						},
+						{
+							"name": "select8"
+						},
+						{
+							"name": "EnquiryStatus"
+						},
+						{
+							"name": "select9"
+						},
+						{
+							"name": "filter3"
+						},
+						{
+							"name": "select10"
+						},
+						{
+							"name": "EnquiryType2"
+						},
+						{
+							"name": "filter4"
+						},
+						{
+							"name": "select11"
+						},
+						{
+							"name": "select12"
+						},
+						{
+							"name": "EqCatTypelookup"
+						},
+						{
+							"name": "EnquiryCategoryType"
+						},
+						{
+							"name": "select13"
+						},
+						{
+							"name": "join2"
+						},
+						{
+							"name": "select14"
+						},
+						{
+							"name": "select15"
+						},
+						{
+							"name": "join3"
+						},
+						{
+							"name": "select16"
+						},
+						{
+							"name": "derivedColumn5"
+						},
+						{
+							"name": "select17"
+						},
+						{
+							"name": "join4"
+						},
+						{
+							"name": "select18"
+						},
+						{
+							"name": "derivedColumn6"
+						},
+						{
+							"name": "select19"
+						},
+						{
+							"name": "derivedColumn7"
+						},
+						{
+							"name": "derivedColumn8"
+						},
+						{
+							"name": "derivedColumn9"
+						},
+						{
+							"name": "derivedColumn10"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          BKNG_DLR_NO as string,",
+						"          BKNG_NO as string,",
+						"          BKNG_CORP_NO as string,",
+						"          BKNG_CMPN_NO as string,",
+						"          BKNG_DATE as string,",
+						"          BKNG_MODEL_CODE as string,",
+						"          BKNG_VRNT_CODE as string,",
+						"          BKNG_COLOR_CODE as string,",
+						"          BKNG_EXPCT_DLVRY_DATE as string,",
+						"          BKNG_VRNT_PRICE as string,",
+						"          BKNG_AMT as string,",
+						"          BKNG_RCPT_TOTAL_AMT as string,",
+						"          BKNG_RCPT_CMPLT_YN as string,",
+						"          BKNG_ALCN_DATE as string,",
+						"          BKNG_ALCN_VIN as string,",
+						"          BKNG_FNCE_TYPE as string,",
+						"          BKNG_FNCE_YN as string,",
+						"          BKNG_FNCER_CODE as string,",
+						"          BKNG_DSA_NAME as string,",
+						"          BKNG_LOAN_AMT as string,",
+						"          BKNG_TENOR_NMTHS as string,",
+						"          BKNG_FILE_NO as string,",
+						"          BKNG_DO_NO as string,",
+						"          BKNG_DO_AMT as string,",
+						"          BKNG_DO_DATE as string,",
+						"          BKNG_IFA_AMT as string,",
+						"          BKNG_INVGT_DATE as string,",
+						"          BKNG_FLGN_DATE as string,",
+						"          BKNG_PADS_DATE as string,",
+						"          BKNG_FNLA_DATE as string,",
+						"          BKNG_INVGT_STAT as string,",
+						"          BKNG_CNCL_TYPE as string,",
+						"          BKNG_CNCL_DATE as string,",
+						"          BKNG_CNCL_RMRKS as string,",
+						"          BKNG_ENQRY_NO as string,",
+						"          BKNG_EMP_NO as string,",
+						"          BKNG_CUST_NO as string,",
+						"          BKNG_CRTE_DTIME as string,",
+						"          BKNG_CRTE_EMP_NO as string,",
+						"          BKNG_UPDT_DTIME as string,",
+						"          BKNG_UPDT_EMP_NO as string,",
+						"          BKNG_RADS_DATE as string,",
+						"          BKNG_DO_ISSD_BY as string,",
+						"          BKNG_DO_CMMT_PMNT_DATE as string,",
+						"          BKNG_DO_ISSR_NAME as string,",
+						"          BKNG_DBRS_DATE as string,",
+						"          BKNG_EXPTD_DBRS_DATE as string,",
+						"          BKNG_CMTD_DLVRY_DATE as string,",
+						"          BKNG_RACK_RATE as string,",
+						"          BKNG_DSA_CMSN as string,",
+						"          BKNG_BRKR_PYMT_TYPE as string,",
+						"          BKNG_BRKR_PYMT_AMT as string,",
+						"          BKNG_SALE_TYPE as string,",
+						"          BKNG_ADVNC_EMI as string,",
+						"          BKNG_IFA_DATE as string,",
+						"          BKNG_BASIC_PRICE as string,",
+						"          BKNG_TAX_PRCNT as string,",
+						"          BKNG_EDCE_PRCNT as string,",
+						"          BKNG_HYPO_NAME as string,",
+						"          BKNG_RFND_TOTAL_AMT as string,",
+						"          BKNG_CGST_PRCNT as string,",
+						"          BKNG_SGST_PRCNT as string,",
+						"          BKNG_IGST_PRCNT as string,",
+						"          BKNG_INTCOLOR_CODE as string,",
+						"          BKNG_BILL_TO_NAME as string,",
+						"          BKNG_BILL_TO_ADDR as string,",
+						"          BKNG_BILL_TO_STATE as string,",
+						"          BKNG_BILL_TO_CITY as string,",
+						"          BKNG_BILL_TO_TEHSIL as string,",
+						"          BKNG_BILL_TO_VILLAGE as string,",
+						"          BKNG_BILL_TO_PIN as string,",
+						"          BKNG_SHIP_TO_NAME as string,",
+						"          BKNG_SHIP_TO_ADDR as string,",
+						"          BKNG_SHIP_TO_STATE as string,",
+						"          BKNG_SHIP_TO_CITY as string,",
+						"          BKNG_SHIP_TO_TEHSIL as string,",
+						"          BKNG_SHIP_TO_VILLAGE as string,",
+						"          BKNG_SHIP_TO_PIN as string,",
+						"          BKNG_FINCR_BRANCH_NM as string,",
+						"          BKNG_RMRKS as string,",
+						"          BKNG_SRC_FLG as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> SOBKNG",
+						"source(output(",
+						"          Occup_Key as string,",
+						"          CMM_CODE as string,",
+						"          Comp_key as string,",
+						"          EQRY_MAKER_CODE as string,",
+						"          Join_KEY as string,",
+						"          CSPM_CHRG_SALES_EMP_NO as string,",
+						"          {Booking Month} as string,",
+						"          REGION as string,",
+						"          BKNG_DLR_NO as string,",
+						"          TRADE_NAME as string,",
+						"          DEALER_CITY as string,",
+						"          EQRY_ENQRY_NO as string,",
+						"          EQRY_PRESENT_CAR_YN as string,",
+						"          EQRY_DATE as string,",
+						"          EQRY_STAT as string,",
+						"          EQRY_CLSE_DATE as string,",
+						"          EQRY_SRC_CODE as string,",
+						"          EQRY_CTGR_CODE as string,",
+						"          EQRY_SUB_SRC_CODE as string,",
+						"          CSPM_CUST_NO as string,",
+						"          CSPM_CUST_FULL_NAME as string,",
+						"          M_MOBL_PHONE_NO as string,",
+						"          CSPM_EMAIL as string,",
+						"          CUSTOMER_TYPE as string,",
+						"          MODEL as string,",
+						"          ENGINE_TYPE as string,",
+						"          TRANSMISSION as string,",
+						"          TRANSMISSION1 as string,",
+						"          KEC as string,",
+						"          KEC_CODE as string,",
+						"          ADDR as string,",
+						"          PIN_CODE as string,",
+						"          CITY_CODE as string,",
+						"          STCD_CODE as string,",
+						"          BOOKING_ADD1 as string,",
+						"          BOOKING_ADD2 as string,",
+						"          BOOKING_ADD3 as string,",
+						"          BOOKING_STATE as string,",
+						"          BOOKING_CITY as string,",
+						"          BOOKING_PIN as string,",
+						"          EXCHANGE_REQUIRED as string,",
+						"          EQRY_EXCHG_MODEL_CODE as string,",
+						"          EQRY_EXCHG_SRC_CODE as string,",
+						"          EQRY_CORP_NAME as string,",
+						"          EQRY_EXPCT_PRICE as string,",
+						"          EQRY_QUOTD_PRICE as string,",
+						"          EQRY_P_MODL_YEAR as string,",
+						"          EQRY_EVAL_YN as string,",
+						"          EQRY_EXCH_DN as string,",
+						"          EQRY_FINAL_BP as string,",
+						"          EQRY_CMPN_NO as string,",
+						"          EQRY_CORP_NO as string,",
+						"          EQRY_LISTD_CORP as string,",
+						"          EQRY_CUST_NO as string,",
+						"          EQRY_DLR_NO as string,",
+						"          CSPM_BRTH_DATE as string,",
+						"          REGISTER_CORP as string,",
+						"          EXISTING_CAR as string,",
+						"          FINANCE_REQUIRED as string,",
+						"          BKNG_NO as string,",
+						"          BOOKING_DATE as string,",
+						"          BKNG_AMT as string,",
+						"          BOOKING_STATUS as string,",
+						"          RCPT_NO as string,",
+						"          RCPT_AMT as string,",
+						"          PAYMENT_TYPE as string,",
+						"          REGISTRATION_NAME as string,",
+						"          EQRY_SR_NUM_REAL as string,",
+						"          BOOKING_TYPE as string,",
+						"          GRP_VRNT_CD as string,",
+						"          EXT_COLOR_NAME as string,",
+						"          INT_COLOR_NAME as string,",
+						"          FINANCIER as string,",
+						"          MODE_OF_PURCHASE as string,",
+						"          BOOKING_CREATION_DATE as string,",
+						"          BOOKING_CREATION_TIME as string,",
+						"          BOOKING_UPDATE_DATE as string,",
+						"          BOOKING_UPDATE_TIME as string,",
+						"          TEST_DRIVE_DATE as string,",
+						"          REQST_TYPE as string,",
+						"          ENQUIRY_CATEGORY as string,",
+						"          VEHICLE_BOOKED_COUNT as string,",
+						"          LOSS_DATE as string,",
+						"          LOSS_REMARK as string,",
+						"          LOSS_REASON as string,",
+						"          LOSS_DUETO as string,",
+						"          LOSS_DUETO_DETAIL as string,",
+						"          TEAM_LEADER as string,",
+						"          REBKNG_CNT as string,",
+						"          RCNT_REBKNG_DT as string,",
+						"          MOB_EMAIL_DATE as string,",
+						"          DMS_EMAIL_DATE as string,",
+						"          MOB_DOCK as string,",
+						"          VRNT_SPEC_CODE as string,",
+						"          DMS_DOCK as string,",
+						"          {ORDER DATE} as string,",
+						"          ORDER_TYPE as string,",
+						"          OEM as string,",
+						"          MODL_MAKER_CODE as string,",
+						"          MODL_MODEL_CODE as string,",
+						"          OEM_MODEL as string,",
+						"          CMM_GRP_CODE as string,",
+						"          CMM_CODE_NAME as string,",
+						"          CUDT_JOB_CODE as string,",
+						"          Occ_Name as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> ROBooking",
+						"source(output(",
+						"          TEAM_LEADER as string,",
+						"          TEAM_LEADER_JOINING_DATE as string,",
+						"          TEAM_LEADER_LEAVE_DATE as string,",
+						"          KEC as string,",
+						"          KEC_NAME as string,",
+						"          KEC_CODE as string,",
+						"          KEC_JOIN_DATE as string,",
+						"          KEC_LEAVE_DATE as string,",
+						"          EQRY_ENQRY_NO as string,",
+						"          EQRY_DLR_NO as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> S1SalesTeamLeader",
+						"source(output(",
+						"          EQRY_DLR_NO as string,",
+						"          EQRY_ENQRY_NO as string,",
+						"          EQRY_CORP_NO as string,",
+						"          EQRY_CMPN_NO as string,",
+						"          EQRY_DATE as string,",
+						"          EQRY_SRC_CODE as string,",
+						"          EQRY_STAT as string,",
+						"          EQRY_TYPE as string,",
+						"          EQRY_TEST_DRVR_DATE as string,",
+						"          EQRY_FNCE_YN as string,",
+						"          EQRY_FNCER_CODE as string,",
+						"          EQRY_LOAN_AMT as string,",
+						"          EQRY_TENOR_MNTHS as string,",
+						"          EQRY_EXCHG_YN as string,",
+						"          EQRY_EXCHG_MODEL_CODE as string,",
+						"          EQRY_EXCHG_SRC_CODE as string,",
+						"          EQRY_EXPCT_PRICE as string,",
+						"          EQRY_QUOTD_PRICE as string,",
+						"          EQRY_CLSE_DATE as string,",
+						"          EQRY_CLSE_TYPE as string,",
+						"          EQRY_CLSE_RMRKS as string,",
+						"          EQRY_EMP_NO as string,",
+						"          EQRY_CUST_NO as string,",
+						"          EQRY_LISTD_CORP as string,",
+						"          EQRY_CORP_NAME as string,",
+						"          EQRY_RFRL_BY as string,",
+						"          EQRY_CRTE_DTIME as string,",
+						"          EQRY_CRTE_EMP_NO as string,",
+						"          EQRY_UPDT_DTIME as string,",
+						"          EQRY_UPDT_EMP_NO as string,",
+						"          EQRY_EQFU_SEQ as string,",
+						"          EQRY_UPDT_DATE as string,",
+						"          EQRY_TEST_DRIVE_YN as string,",
+						"          EQRY_SR_NUM as string,",
+						"          EQRY_SR_TYPE as string,",
+						"          EQRY_FLW_STATUS as string,",
+						"          EQRY_ASSOCIATE_ID as string,",
+						"          EQRY_RSO_ID as string,",
+						"          EQRY_FUEL_TYPE as string,",
+						"          EQRY_PRESENT_CAR_YN as string,",
+						"          EQRY_MAKER_CODE as string,",
+						"          EQRY_TD_VIN as string,",
+						"          EQRY_CUST_BLOCK as string,",
+						"          EQRY_BULK_SALE as string,",
+						"          EQRY_P_MODL_YEAR as string,",
+						"          EQRY_CLS_VAL as string,",
+						"          EQRY_INCOM_GROUP as string,",
+						"          EQRY_REFL_ID as string,",
+						"          EQRY_REFL_PUNCH_DLR_NO as string,",
+						"          EQRY_PLAN_DATE as string,",
+						"          EQRY_ATIVT_NAME_CODE as string,",
+						"          EQRY_ATIVT_LOC_CODE as string,",
+						"          EQRY_NEWCAR_YN as string,",
+						"          EQRY_FCALL_EMP_NO as string,",
+						"          EQRY_APNT_DTIME as string,",
+						"          VIST_DTIME as string,",
+						"          LEAV_DTIME as string,",
+						"          EQRY_CTGR_CODE as string,",
+						"          EQRY_SUB_SRC_CODE as string,",
+						"          EQRY_CLSE_GRP_TYPE as string,",
+						"          EQRY_BUDG_TYPE as string,",
+						"          EQRY_CERT_TYPE as string,",
+						"          EQRY_UC_SC_EMP_NO as string,",
+						"          EQRY_TDRIVE_RMRKS as string,",
+						"          EQRY_VC_RMRKS as string,",
+						"          EQRY_REQ_TYPE as string,",
+						"          EQRY_EMAILSEND_YN as string,",
+						"          EQRY_SRC_FLG as string,",
+						"          EQRY_SR_NUM_REAL as string,",
+						"          EQRY_ENG_TYP as string,",
+						"          EQRY_TRNSM_TYP as string,",
+						"          SOQ_TAG_YN as string,",
+						"          EQRY_EVAL_YN as string,",
+						"          EQRY_EXCH_DN as string,",
+						"          EQRY_FINAL_BP as string,",
+						"          EQRY_CAMPGN_NO as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> CRMSCEQRY",
+						"source(output(",
+						"          ENSC_CMPN_NO as string,",
+						"          ENSC_CORP_NO as string,",
+						"          ENSC_GRP_CODE as string,",
+						"          ENSC_CODE as string,",
+						"          ENSC_GRP_NAME as string,",
+						"          ENSC_NAME as string,",
+						"          ENSC_PRIORITY as string,",
+						"          ENSC_DELYN as string,",
+						"          ENSC_CRTE_EMP_NO as string,",
+						"          ENSC_CRTE_DTIME as string,",
+						"          ENSC_UPDT_EMP_NO as string,",
+						"          ENSC_UPDT_DTIME as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> SDENSCTB",
+						"source(output(",
+						"          CMPN_NO as string,",
+						"          CORP_NO as string,",
+						"          CMM_GRP_CODE as string,",
+						"          CMM_CODE as string,",
+						"          CMM_CODE_NAME as string,",
+						"          REMARK_1 as string,",
+						"          REMARK_2 as string,",
+						"          REMARK_3 as string,",
+						"          REMARK_4 as string,",
+						"          REMARK_5 as string,",
+						"          USED_YN as string,",
+						"          PRIORITY as string,",
+						"          CRTE_EMP_NO as string,",
+						"          CRTE_DTIME as string,",
+						"          UPDT_EMP_NO as string,",
+						"          UPDT_DTIME as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> CMCDTB",
+						"source(output(",
+						"          CMPN_NO as string,",
+						"          CORP_NO as string,",
+						"          CMM_GRP_CODE as string,",
+						"          CMM_CODE as string,",
+						"          CMM_CODE_NAME as string,",
+						"          REMARK_1 as string,",
+						"          REMARK_2 as string,",
+						"          REMARK_3 as string,",
+						"          REMARK_4 as string,",
+						"          REMARK_5 as string,",
+						"          USED_YN as string,",
+						"          PRIORITY as string,",
+						"          CRTE_EMP_NO as string,",
+						"          CRTE_DTIME as string,",
+						"          UPDT_EMP_NO as string,",
+						"          UPDT_DTIME as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> CMCDTB1",
+						"source(output(",
+						"          CMPN_NO as string,",
+						"          CORP_NO as string,",
+						"          CMM_GRP_CODE as string,",
+						"          CMM_CODE as string,",
+						"          CMM_CODE_NAME as string,",
+						"          REMARK_1 as string,",
+						"          REMARK_2 as string,",
+						"          REMARK_3 as string,",
+						"          REMARK_4 as string,",
+						"          REMARK_5 as string,",
+						"          USED_YN as string,",
+						"          PRIORITY as string,",
+						"          CRTE_EMP_NO as string,",
+						"          CRTE_DTIME as string,",
+						"          UPDT_EMP_NO as string,",
+						"          UPDT_DTIME as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> CMCDTB2",
+						"source(output(",
+						"          EQCR_DLR_NO as string,",
+						"          EQCR_ENQRY_NO as string,",
+						"          EQCR_SEQ as string,",
+						"          EQCR_CORP_NO as string,",
+						"          EQCR_CMPN_NO as string,",
+						"          EQCR_MODEL_CODE as string,",
+						"          EQCR_VRNT_CODE as string,",
+						"          EQCR_COLOR_CODE as string,",
+						"          EQCR_QTY as string,",
+						"          EQCR_CRTE_DTIME as string,",
+						"          EQCR_CRTE_EMP_NO as string,",
+						"          EQCR_UPDT_DTIME as string,",
+						"          EQCR_UPDT_EMP_NO as string,",
+						"          EQCR_INTCOLOR_CODE as string,",
+						"          EQCR_MAKER_CODE as string,",
+						"          EQCR_INT_COLOR_CODE as string,",
+						"          EQCR_QUOTED_PRICE as string,",
+						"          EQCR_EXPECTED_PRICE as string,",
+						"          EQCR_FUEL_TYPE as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> SCEQCR",
+						"source(output(",
+						"          INVC_DLR_NO as string,",
+						"          INVC_NO as string,",
+						"          INVC_CORP_NO as string,",
+						"          INVC_CMPN_NO as string,",
+						"          INVC_TYPE as string,",
+						"          INVC_CNFM_YN as string,",
+						"          INVC_CNFM_DATE as string,",
+						"          INVC_DATE as string,",
+						"          INVC_INSR_YN as string,",
+						"          INVC_INSR_AMT as string,",
+						"          INVC_INSR_DATE as string,",
+						"          INVC_INSR_TYPE as string,",
+						"          INVC_INSR_NO as string,",
+						"          INVC_RGSTN_NO as string,",
+						"          INVC_RGSTN_DATE as string,",
+						"          INVC_DLVRY_DATE as string,",
+						"          INVC_ADDR1 as string,",
+						"          INVC_ADDR2 as string,",
+						"          INVC_ADDR3 as string,",
+						"          INVC_RGN_CODE as string,",
+						"          INVC_STCD_CODE as string,",
+						"          INVC_CITY_CODE as string,",
+						"          INVC_LCTN_CODE as string,",
+						"          INVC_PIN_CODE as string,",
+						"          INVC_CNCL_YN as string,",
+						"          INVC_CNCL_DATE as string,",
+						"          INVC_CNCL_RMRKS as string,",
+						"          INVC_BKNG_NO as string,",
+						"          INVC_CRTE_DTIME as string,",
+						"          INVC_CRTE_EMP_NO as string,",
+						"          INVC_UPDT_DTIME as string,",
+						"          INVC_UPDT_EMP_NO as string,",
+						"          INVC_ACTRL_USR_YN as string,",
+						"          INVC_DN_DATE as string,",
+						"          INVC_DLVRY_CNFM_YN as string,",
+						"          INVC_CC_REQ as string,",
+						"          INVC_CC_REASON as string,",
+						"          INVC_CC_RDATE as string,",
+						"          INVC_CC_RMRKS as string,",
+						"          INVC_CC_RA_YN as string,",
+						"          INVC_CC_STATUS as string,",
+						"          INVC_CC_REQ_VERSION as string,",
+						"          INVC_HMIL_EMP_CODE as string,",
+						"          INVC_ENQRY_NO as string,",
+						"          INVC_REGI_FILE_DOC_NO as string,",
+						"          INVC_DLVRY_FILE_DOC_NO as string,",
+						"          INVC_REGI_CUST_NO as string,",
+						"          INVC_REGI_RELAT_SHIP as string,",
+						"          INVC_VIN_NO as string,",
+						"          INVC_BASIC_PRCE as string,",
+						"          INVC_VRNT_PRCE as string,",
+						"          INVC_ADVNC_EMI as string,",
+						"          INVC_LOAN_AMT as string,",
+						"          INVC_WTYNLTY_CFC_YN as string,",
+						"          INVC_EQCR_SEQ as string,",
+						"          INVC_ALCN_DATE as string,",
+						"          INVC_SCHEME_YN as string,",
+						"          INVC_MYKIA as string,",
+						"          INVC_MYKIA_REG_DATE as string,",
+						"          INVC_MK_VINLINK_DT as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> SWINVCTB",
+						"SOBKNG derive(Booking_Amt = iif(isNull(toInteger(BKNG_AMT)), 0, toInteger(BKNG_AMT)),",
+						"          Booking_Source = iif(upper(BKNG_SRC_FLG)=='MOB','Mobile',upper(BKNG_SRC_FLG)),",
+						"          Booking_Source_Type = iif(BKNG_SRC_FLG == 'MOB','MySales',iif(length(BKNG_SRC_FLG)>0,'Online','DMS')),",
+						"          Dealer_Booking = concat(BKNG_DLR_NO,BKNG_NO)) ~> SOBKNGderived",
+						"ROBooking derive(Dealer_Booking = concat(BKNG_DLR_NO,BKNG_NO)) ~> derivedColumn1",
+						"derivedColumn1 select(mapColumn(",
+						"          MOB_EMAIL_DATE,",
+						"          DMS_EMAIL_DATE,",
+						"          Dealer_Booking",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select1",
+						"SOBKNGderived, select1 lookup(SOBKNGderived@Dealer_Booking == select1@Dealer_Booking,",
+						"     multiple: false,",
+						"     pickup: 'first',",
+						"     asc(MOB_EMAIL_DATE, false),",
+						"     broadcast: 'auto')~> MOBlookup1",
+						"MOBlookup1 select(mapColumn(",
+						"          BKNG_DLR_NO,",
+						"          BKNG_NO,",
+						"          BKNG_CORP_NO,",
+						"          BKNG_CMPN_NO,",
+						"          BKNG_DATE,",
+						"          BKNG_MODEL_CODE,",
+						"          BKNG_VRNT_CODE,",
+						"          BKNG_COLOR_CODE,",
+						"          BKNG_EXPCT_DLVRY_DATE,",
+						"          BKNG_VRNT_PRICE,",
+						"          BKNG_AMT,",
+						"          BKNG_RCPT_TOTAL_AMT,",
+						"          BKNG_RCPT_CMPLT_YN,",
+						"          BKNG_ALCN_DATE,",
+						"          BKNG_ALCN_VIN,",
+						"          BKNG_FNCE_TYPE,",
+						"          BKNG_FNCE_YN,",
+						"          BKNG_FNCER_CODE,",
+						"          BKNG_DSA_NAME,",
+						"          BKNG_LOAN_AMT,",
+						"          BKNG_TENOR_NMTHS,",
+						"          BKNG_FILE_NO,",
+						"          BKNG_DO_NO,",
+						"          BKNG_DO_AMT,",
+						"          BKNG_DO_DATE,",
+						"          BKNG_IFA_AMT,",
+						"          BKNG_INVGT_DATE,",
+						"          BKNG_FLGN_DATE,",
+						"          BKNG_PADS_DATE,",
+						"          BKNG_FNLA_DATE,",
+						"          BKNG_INVGT_STAT,",
+						"          BKNG_CNCL_TYPE,",
+						"          BKNG_CNCL_DATE,",
+						"          BKNG_CNCL_RMRKS,",
+						"          BKNG_ENQRY_NO,",
+						"          BKNG_EMP_NO,",
+						"          BKNG_CUST_NO,",
+						"          BKNG_CRTE_DTIME,",
+						"          BKNG_CRTE_EMP_NO,",
+						"          BKNG_UPDT_DTIME,",
+						"          BKNG_UPDT_EMP_NO,",
+						"          BKNG_RADS_DATE,",
+						"          BKNG_DO_ISSD_BY,",
+						"          BKNG_DO_CMMT_PMNT_DATE,",
+						"          BKNG_DO_ISSR_NAME,",
+						"          BKNG_DBRS_DATE,",
+						"          BKNG_EXPTD_DBRS_DATE,",
+						"          BKNG_CMTD_DLVRY_DATE,",
+						"          BKNG_RACK_RATE,",
+						"          BKNG_DSA_CMSN,",
+						"          BKNG_BRKR_PYMT_TYPE,",
+						"          BKNG_BRKR_PYMT_AMT,",
+						"          BKNG_SALE_TYPE,",
+						"          BKNG_ADVNC_EMI,",
+						"          BKNG_IFA_DATE,",
+						"          BKNG_BASIC_PRICE,",
+						"          BKNG_TAX_PRCNT,",
+						"          BKNG_EDCE_PRCNT,",
+						"          BKNG_HYPO_NAME,",
+						"          BKNG_RFND_TOTAL_AMT,",
+						"          BKNG_CGST_PRCNT,",
+						"          BKNG_SGST_PRCNT,",
+						"          BKNG_IGST_PRCNT,",
+						"          BKNG_INTCOLOR_CODE,",
+						"          BKNG_BILL_TO_NAME,",
+						"          BKNG_BILL_TO_ADDR,",
+						"          BKNG_BILL_TO_STATE,",
+						"          BKNG_BILL_TO_CITY,",
+						"          BKNG_BILL_TO_TEHSIL,",
+						"          BKNG_BILL_TO_VILLAGE,",
+						"          BKNG_BILL_TO_PIN,",
+						"          BKNG_SHIP_TO_NAME,",
+						"          BKNG_SHIP_TO_ADDR,",
+						"          BKNG_SHIP_TO_STATE,",
+						"          BKNG_SHIP_TO_CITY,",
+						"          BKNG_SHIP_TO_TEHSIL,",
+						"          BKNG_SHIP_TO_VILLAGE,",
+						"          BKNG_SHIP_TO_PIN,",
+						"          BKNG_FINCR_BRANCH_NM,",
+						"          BKNG_RMRKS,",
+						"          BKNG_SRC_FLG,",
+						"          Booking_Amt,",
+						"          Booking_Source,",
+						"          Booking_Source_Type,",
+						"          Dealer_Booking = SOBKNGderived@Dealer_Booking,",
+						"          MOB_Docket_Date = MOB_EMAIL_DATE",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> MOBDocketDate",
+						"MOBDocketDate, select1 lookup(MOBDocketDate@Dealer_Booking == select1@Dealer_Booking,",
+						"     multiple: false,",
+						"     pickup: 'first',",
+						"     asc(DMS_EMAIL_DATE, false),",
+						"     broadcast: 'auto')~> DMSlookup1",
+						"DMSlookup1 select(mapColumn(",
+						"          BKNG_DLR_NO,",
+						"          BKNG_NO,",
+						"          BKNG_CORP_NO,",
+						"          BKNG_CMPN_NO,",
+						"          BKNG_DATE,",
+						"          BKNG_MODEL_CODE,",
+						"          BKNG_VRNT_CODE,",
+						"          BKNG_COLOR_CODE,",
+						"          BKNG_EXPCT_DLVRY_DATE,",
+						"          BKNG_VRNT_PRICE,",
+						"          BKNG_AMT,",
+						"          BKNG_RCPT_TOTAL_AMT,",
+						"          BKNG_RCPT_CMPLT_YN,",
+						"          BKNG_ALCN_DATE,",
+						"          BKNG_ALCN_VIN,",
+						"          BKNG_FNCE_TYPE,",
+						"          BKNG_FNCE_YN,",
+						"          BKNG_FNCER_CODE,",
+						"          BKNG_DSA_NAME,",
+						"          BKNG_LOAN_AMT,",
+						"          BKNG_TENOR_NMTHS,",
+						"          BKNG_FILE_NO,",
+						"          BKNG_DO_NO,",
+						"          BKNG_DO_AMT,",
+						"          BKNG_DO_DATE,",
+						"          BKNG_IFA_AMT,",
+						"          BKNG_INVGT_DATE,",
+						"          BKNG_FLGN_DATE,",
+						"          BKNG_PADS_DATE,",
+						"          BKNG_FNLA_DATE,",
+						"          BKNG_INVGT_STAT,",
+						"          BKNG_CNCL_TYPE,",
+						"          BKNG_CNCL_DATE,",
+						"          BKNG_CNCL_RMRKS,",
+						"          BKNG_ENQRY_NO,",
+						"          BKNG_EMP_NO,",
+						"          BKNG_CUST_NO,",
+						"          BKNG_CRTE_DTIME,",
+						"          BKNG_CRTE_EMP_NO,",
+						"          BKNG_UPDT_DTIME,",
+						"          BKNG_UPDT_EMP_NO,",
+						"          BKNG_RADS_DATE,",
+						"          BKNG_DO_ISSD_BY,",
+						"          BKNG_DO_CMMT_PMNT_DATE,",
+						"          BKNG_DO_ISSR_NAME,",
+						"          BKNG_DBRS_DATE,",
+						"          BKNG_EXPTD_DBRS_DATE,",
+						"          BKNG_CMTD_DLVRY_DATE,",
+						"          BKNG_RACK_RATE,",
+						"          BKNG_DSA_CMSN,",
+						"          BKNG_BRKR_PYMT_TYPE,",
+						"          BKNG_BRKR_PYMT_AMT,",
+						"          BKNG_SALE_TYPE,",
+						"          BKNG_ADVNC_EMI,",
+						"          BKNG_IFA_DATE,",
+						"          BKNG_BASIC_PRICE,",
+						"          BKNG_TAX_PRCNT,",
+						"          BKNG_EDCE_PRCNT,",
+						"          BKNG_HYPO_NAME,",
+						"          BKNG_RFND_TOTAL_AMT,",
+						"          BKNG_CGST_PRCNT,",
+						"          BKNG_SGST_PRCNT,",
+						"          BKNG_IGST_PRCNT,",
+						"          BKNG_INTCOLOR_CODE,",
+						"          BKNG_BILL_TO_NAME,",
+						"          BKNG_BILL_TO_ADDR,",
+						"          BKNG_BILL_TO_STATE,",
+						"          BKNG_BILL_TO_CITY,",
+						"          BKNG_BILL_TO_TEHSIL,",
+						"          BKNG_BILL_TO_VILLAGE,",
+						"          BKNG_BILL_TO_PIN,",
+						"          BKNG_SHIP_TO_NAME,",
+						"          BKNG_SHIP_TO_ADDR,",
+						"          BKNG_SHIP_TO_STATE,",
+						"          BKNG_SHIP_TO_CITY,",
+						"          BKNG_SHIP_TO_TEHSIL,",
+						"          BKNG_SHIP_TO_VILLAGE,",
+						"          BKNG_SHIP_TO_PIN,",
+						"          BKNG_FINCR_BRANCH_NM,",
+						"          BKNG_RMRKS,",
+						"          BKNG_SRC_FLG,",
+						"          Booking_Amt,",
+						"          Booking_Source,",
+						"          Booking_Source_Type,",
+						"          Dealer_Booking = MOBDocketDate@Dealer_Booking,",
+						"          MOB_Docket_Date,",
+						"          DMS_Docket_Date = DMS_EMAIL_DATE",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> DMSDocketDate",
+						"DMSDocketDate derive(Booking_Date = toString(toTimestamp(toString(BKNG_DATE), 'yyyy-MM-dd') , 'dd/MM/YYYY'),",
+						"          Link_Date = BKNG_DATE,",
+						"          Booking_Status = iif(Booking_Amt==0,'Without Payment','Payment')) ~> derivedColumn2",
+						"derivedColumn2 select(mapColumn(",
+						"          Dealer_No = BKNG_DLR_NO,",
+						"          Booking_No = BKNG_NO,",
+						"          Corporation_No = BKNG_CORP_NO,",
+						"          Company_No = BKNG_CMPN_NO,",
+						"          BKNG_DATE,",
+						"          Model_Code = BKNG_MODEL_CODE,",
+						"          TRIM_Code = BKNG_VRNT_CODE,",
+						"          {Ext.Colour_Code} = BKNG_COLOR_CODE,",
+						"          BKNG_EXPCT_DLVRY_DATE,",
+						"          BKNG_VRNT_PRICE,",
+						"          BKNG_AMT,",
+						"          BKNG_RCPT_TOTAL_AMT,",
+						"          BKNG_ALCN_DATE,",
+						"          BKNG_FNCE_TYPE,",
+						"          BKNG_FNCE_YN,",
+						"          BKNG_DSA_NAME,",
+						"          BKNG_DO_AMT,",
+						"          BKNG_CNCL_TYPE,",
+						"          BKNG_CNCL_DATE,",
+						"          BKNG_CNCL_RMRKS,",
+						"          {Link_Enquiry_No.} = BKNG_ENQRY_NO,",
+						"          BKNG_EMP_NO,",
+						"          {Customer_No.} = BKNG_CUST_NO,",
+						"          BKNG_CRTE_DTIME,",
+						"          BKNG_CRTE_EMP_NO,",
+						"          BKNG_UPDT_DTIME,",
+						"          BKNG_CMTD_DLVRY_DATE,",
+						"          BKNG_SALE_TYPE,",
+						"          {Int.Colour_Code} = BKNG_INTCOLOR_CODE,",
+						"          BKNG_BILL_TO_STATE,",
+						"          BKNG_BILL_TO_CITY,",
+						"          BKNG_BILL_TO_TEHSIL,",
+						"          BKNG_BILL_TO_VILLAGE,",
+						"          BKNG_RMRKS,",
+						"          BKNG_SRC_FLG,",
+						"          Booking_Amt,",
+						"          Booking_Source,",
+						"          Booking_Source_Type,",
+						"          MOB_Docket_Date,",
+						"          DMS_Docket_Date,",
+						"          Booking_Date,",
+						"          Link_Date,",
+						"          Booking_Status",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select2",
+						"select3 derive(Team_Leader_Name = upper(substringIndex(substringIndex(TEAM_LEADER,';',2),';',-1)),",
+						"          Team_Leader_Code = substringIndex(TEAM_LEADER,';',1),",
+						"          {Active/Inactive} = upper(substringIndex(TEAM_LEADER,';',-1)),",
+						"          KEC = upper(KEC_NAME),",
+						"          joinKey = concat({Dealer_No.},{Link_Enquiry_No.})) ~> derivedColumn3",
+						"S1SalesTeamLeader select(mapColumn(",
+						"          TEAM_LEADER,",
+						"          Team_leader_Joining_Date = TEAM_LEADER_JOINING_DATE,",
+						"          Team_leader_Leave_Date = TEAM_LEADER_LEAVE_DATE,",
+						"          KEC_Short_Code = KEC,",
+						"          KEC_NAME,",
+						"          KEC_Long_Code = KEC_CODE,",
+						"          KEC_Join_Date = KEC_JOIN_DATE,",
+						"          KEC_Leave_Date = KEC_LEAVE_DATE,",
+						"          {Link_Enquiry_No.} = EQRY_ENQRY_NO,",
+						"          {Dealer_No.} = EQRY_DLR_NO",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select3",
+						"derivedColumn7, derivedColumn3 join(derivedColumn7@joinKey == derivedColumn3@joinKey,",
+						"     joinType:'left',",
+						"     matchType:'exact',",
+						"     ignoreSpaces: false,",
+						"     broadcast: 'auto')~> join1",
+						"CRMSCEQRY derive(Key = concat(EQRY_ENQRY_NO,EQRY_DLR_NO),",
+						"          Enquiry_Source_Type = iif(EQRY_SRC_FLG=='MOB','MySales',iif(length(EQRY_SR_NUM_REAL)>0,'Online','DMS')),",
+						"          {Finance/Not Finance} = iif(EQRY_FNCE_YN=='Y','Finance','Not-Finance')) ~> derivedColumn4",
+						"derivedColumn4 select(mapColumn(",
+						"          {Dealer_No.} = EQRY_DLR_NO,",
+						"          {Link_Enquiry_No.} = EQRY_ENQRY_NO,",
+						"          {Corporation_No.} = EQRY_CORP_NO,",
+						"          {Company_No.} = EQRY_CMPN_NO,",
+						"          link_date = EQRY_DATE,",
+						"          EQRY_SRC_CODE,",
+						"          EQRY_STAT,",
+						"          EQRY_TYPE,",
+						"          EQRY_TEST_DRVR_DATE,",
+						"          EQRY_FNCE_YN,",
+						"          EQRY_EXCHG_YN,",
+						"          EQRY_EXCHG_MODEL_CODE,",
+						"          EQRY_EXCHG_SRC_CODE,",
+						"          EQRY_CLSE_DATE,",
+						"          EQRY_CLSE_TYPE,",
+						"          EQRY_CLSE_RMRKS,",
+						"          EQRY_EMP_NO,",
+						"          EQRY_CORP_NAME,",
+						"          EQRY_CRTE_DTIME,",
+						"          EQRY_CRTE_EMP_NO,",
+						"          EQRY_UPDT_DTIME,",
+						"          EQRY_EQFU_SEQ,",
+						"          EQRY_UPDT_DATE,",
+						"          EQRY_SR_NUM,",
+						"          EQRY_SR_TYPE,",
+						"          EQRY_FLW_STATUS,",
+						"          EQRY_P_MODL_YEAR,",
+						"          EQRY_NEWCAR_YN,",
+						"          EQRY_FCALL_EMP_NO,",
+						"          EQRY_CTGR_CODE,",
+						"          EQRY_SUB_SRC_CODE,",
+						"          EQRY_SRC_FLG,",
+						"          EQRY_SR_NUM_REAL,",
+						"          Key,",
+						"          Enquiry_Source_Type,",
+						"          {Finance/Not Finance}",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select4",
+						"SDENSCTB filter(ENSC_GRP_CODE=='DSO0001') ~> filter1",
+						"filter1 select(mapColumn(",
+						"          EQRY_SUB_SRC_CODE = ENSC_CODE,",
+						"          ENSC_GRP_NAME,",
+						"          ENSC_NAME",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select5",
+						"select4, select5 lookup(select4@EQRY_SUB_SRC_CODE == select5@EQRY_SUB_SRC_CODE,",
+						"     multiple: false,",
+						"     pickup: 'first',",
+						"     asc(ENSC_NAME, false),",
+						"     broadcast: 'auto')~> lookup1",
+						"lookup1 select(mapColumn(",
+						"          {Dealer_No.},",
+						"          {Link_Enquiry_No.},",
+						"          {Corporation_No.},",
+						"          {Company_No.},",
+						"          link_date,",
+						"          EQRY_SRC_CODE,",
+						"          EQRY_STAT,",
+						"          EQRY_TYPE,",
+						"          EQRY_FNCE_YN,",
+						"          EQRY_EXCHG_YN,",
+						"          EQRY_EXCHG_MODEL_CODE,",
+						"          EQRY_EXCHG_SRC_CODE,",
+						"          EQRY_CLSE_DATE,",
+						"          EQRY_CLSE_TYPE,",
+						"          EQRY_CLSE_RMRKS,",
+						"          EQRY_EMP_NO,",
+						"          EQRY_CORP_NAME,",
+						"          EQRY_CRTE_DTIME,",
+						"          EQRY_CRTE_EMP_NO,",
+						"          EQRY_UPDT_DTIME,",
+						"          EQRY_EQFU_SEQ,",
+						"          EQRY_UPDT_DATE,",
+						"          EQRY_SR_NUM,",
+						"          EQRY_SR_TYPE,",
+						"          EQRY_FLW_STATUS,",
+						"          EQRY_P_MODL_YEAR,",
+						"          EQRY_CTGR_CODE,",
+						"          EQRY_SUB_SRC_CODE = select4@EQRY_SUB_SRC_CODE,",
+						"          EQRY_SRC_FLG,",
+						"          EQRY_SR_NUM_REAL,",
+						"          Key,",
+						"          Enquiry_Source_Type,",
+						"          {Finance/Not Finance},",
+						"          ENSC_NAME",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select6",
+						"select6 derive(Enquiry_Sub_Source_Name = iif(ENSC_NAME=='Ads',upper('Advertisements'),upper(ENSC_NAME))) ~> EnquirySubSourceName",
+						"EnquirySubSourceName, select5 lookup(select6@EQRY_SUB_SRC_CODE == select5@EQRY_SUB_SRC_CODE,",
+						"     multiple: false,",
+						"     pickup: 'first',",
+						"     asc(ENSC_GRP_NAME, false),",
+						"     broadcast: 'auto')~> lookup2",
+						"lookup2 select(mapColumn(",
+						"          {Dealer_No.},",
+						"          {Link_Enquiry_No.},",
+						"          {Corporation_No.},",
+						"          {Company_No.},",
+						"          link_date,",
+						"          EQRY_SRC_CODE,",
+						"          EQRY_STAT,",
+						"          EQRY_TYPE,",
+						"          EQRY_FNCE_YN,",
+						"          EQRY_EXCHG_YN,",
+						"          EQRY_EXCHG_MODEL_CODE,",
+						"          EQRY_EXCHG_SRC_CODE,",
+						"          EQRY_CLSE_DATE,",
+						"          EQRY_CLSE_TYPE,",
+						"          EQRY_CLSE_RMRKS,",
+						"          EQRY_EMP_NO,",
+						"          EQRY_CORP_NAME,",
+						"          EQRY_CRTE_DTIME,",
+						"          EQRY_CRTE_EMP_NO,",
+						"          EQRY_UPDT_DTIME,",
+						"          EQRY_EQFU_SEQ,",
+						"          EQRY_UPDT_DATE,",
+						"          EQRY_SR_NUM,",
+						"          EQRY_SR_TYPE,",
+						"          EQRY_FLW_STATUS,",
+						"          EQRY_P_MODL_YEAR,",
+						"          EQRY_CTGR_CODE,",
+						"          EQRY_SUB_SRC_CODE = select6@EQRY_SUB_SRC_CODE,",
+						"          EQRY_SRC_FLG,",
+						"          EQRY_SR_NUM_REAL,",
+						"          Key,",
+						"          Enquiry_Source_Type,",
+						"          {Finance/Not Finance},",
+						"          ENSC_NAME = select6@ENSC_NAME,",
+						"          Enquiry_Sub_Source_Name,",
+						"          EQRY_SUB_SRC_CODE = select5@EQRY_SUB_SRC_CODE,",
+						"          ENSC_GRP_NAME,",
+						"          ENSC_NAME = select5@ENSC_NAME",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select7",
+						"select7 derive(Enquiry_Source = upper(ENSC_GRP_NAME)) ~> EnquirySource",
+						"CMCDTB filter(CMM_GRP_CODE=='DSO0002') ~> filter2",
+						"filter2 select(mapColumn(",
+						"          EQRY_STAT = CMM_CODE,",
+						"          CMM_CODE_NAME",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select8",
+						"EnquirySource, select8 lookup(select7@EQRY_STAT == select8@EQRY_STAT,",
+						"     multiple: false,",
+						"     pickup: 'first',",
+						"     asc(CMM_CODE_NAME, false),",
+						"     broadcast: 'auto')~> EnquiryStatus",
+						"EnquiryStatus select(mapColumn(",
+						"          {Dealer_No.},",
+						"          {Link_Enquiry_No.},",
+						"          {Corporation_No.},",
+						"          {Company_No.},",
+						"          link_date,",
+						"          EQRY_SRC_CODE,",
+						"          EQRY_STAT = select7@EQRY_STAT,",
+						"          EQRY_TYPE,",
+						"          EQRY_FNCE_YN,",
+						"          EQRY_EXCHG_YN,",
+						"          EQRY_EXCHG_MODEL_CODE,",
+						"          EQRY_EXCHG_SRC_CODE,",
+						"          EQRY_CLSE_DATE,",
+						"          EQRY_CLSE_TYPE,",
+						"          EQRY_CLSE_RMRKS,",
+						"          EQRY_EMP_NO,",
+						"          EQRY_CORP_NAME,",
+						"          EQRY_CRTE_DTIME,",
+						"          EQRY_CRTE_EMP_NO,",
+						"          EQRY_UPDT_DTIME,",
+						"          EQRY_EQFU_SEQ,",
+						"          EQRY_UPDT_DATE,",
+						"          EQRY_SR_NUM,",
+						"          EQRY_SR_TYPE,",
+						"          EQRY_FLW_STATUS,",
+						"          EQRY_P_MODL_YEAR,",
+						"          EQRY_CTGR_CODE,",
+						"          EQRY_SUB_SRC_CODE,",
+						"          EQRY_SRC_FLG,",
+						"          EQRY_SR_NUM_REAL,",
+						"          Key,",
+						"          Enquiry_Source_Type,",
+						"          {Finance/Not Finance},",
+						"          ENSC_NAME,",
+						"          Enquiry_Sub_Source_Name,",
+						"          ENSC_GRP_NAME,",
+						"          Enquiry_Source,",
+						"          EQRY_STAT = select8@EQRY_STAT,",
+						"          Enquiry_Status = CMM_CODE_NAME",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select9",
+						"CMCDTB1 filter(CMM_GRP_CODE=='DSO0013' && CMM_CODE!='N') ~> filter3",
+						"filter3 select(mapColumn(",
+						"          EQRY_TYPE = CMM_CODE,",
+						"          CMM_CODE_NAME",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select10",
+						"select9, select10 lookup(select9@EQRY_TYPE == select10@EQRY_TYPE,",
+						"     multiple: false,",
+						"     pickup: 'first',",
+						"     asc(select10@CMM_CODE_NAME, false),",
+						"     broadcast: 'auto')~> EnquiryType2",
+						"CMCDTB2 filter(CMM_GRP_CODE=='DSO0012') ~> filter4",
+						"filter4 select(mapColumn(",
+						"          EQRY_CTGR_CODE = CMM_CODE,",
+						"          CMM_CODE_NAME",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select11",
+						"EnquiryType2 select(mapColumn(",
+						"          {Dealer_No.},",
+						"          {Link_Enquiry_No.},",
+						"          {Corporation_No.},",
+						"          {Company_No.},",
+						"          link_date,",
+						"          EQRY_SRC_CODE,",
+						"          EQRY_STAT,",
+						"          EQRY_TYPE = select9@EQRY_TYPE,",
+						"          EQRY_FNCE_YN,",
+						"          EQRY_EXCHG_YN,",
+						"          EQRY_EXCHG_MODEL_CODE,",
+						"          EQRY_EXCHG_SRC_CODE,",
+						"          EQRY_CLSE_DATE,",
+						"          EQRY_CLSE_TYPE,",
+						"          EQRY_CLSE_RMRKS,",
+						"          EQRY_EMP_NO,",
+						"          EQRY_CORP_NAME,",
+						"          EQRY_CRTE_DTIME,",
+						"          EQRY_CRTE_EMP_NO,",
+						"          EQRY_UPDT_DTIME,",
+						"          EQRY_EQFU_SEQ,",
+						"          EQRY_UPDT_DATE,",
+						"          EQRY_SR_NUM,",
+						"          EQRY_SR_TYPE,",
+						"          EQRY_FLW_STATUS,",
+						"          EQRY_P_MODL_YEAR,",
+						"          EQRY_CTGR_CODE,",
+						"          EQRY_SUB_SRC_CODE,",
+						"          EQRY_SRC_FLG,",
+						"          EQRY_SR_NUM_REAL,",
+						"          Key,",
+						"          Enquiry_Source_Type,",
+						"          {Finance/Not Finance},",
+						"          ENSC_NAME,",
+						"          Enquiry_Sub_Source_Name,",
+						"          ENSC_GRP_NAME,",
+						"          Enquiry_Source,",
+						"          Enquiry_Status,",
+						"          EQRY_TYPE = select10@EQRY_TYPE,",
+						"          Enquiry_Type2 = CMM_CODE_NAME",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select12",
+						"select12, select11 lookup(select12@EQRY_CTGR_CODE == select11@EQRY_CTGR_CODE,",
+						"     multiple: false,",
+						"     pickup: 'first',",
+						"     asc(select11@CMM_CODE_NAME, false),",
+						"     broadcast: 'auto')~> EqCatTypelookup",
+						"EqCatTypelookup select(mapColumn(",
+						"          {Dealer_No.},",
+						"          {Link_Enquiry_No.},",
+						"          {Corporation_No.},",
+						"          {Company_No.},",
+						"          link_date,",
+						"          EQRY_SRC_CODE,",
+						"          EQRY_STAT,",
+						"          EQRY_TYPE,",
+						"          EQRY_FNCE_YN,",
+						"          EQRY_EXCHG_YN,",
+						"          EQRY_EXCHG_MODEL_CODE,",
+						"          EQRY_EXCHG_SRC_CODE,",
+						"          EQRY_CLSE_DATE,",
+						"          EQRY_CLSE_TYPE,",
+						"          EQRY_CLSE_RMRKS,",
+						"          EQRY_EMP_NO,",
+						"          EQRY_CORP_NAME,",
+						"          EQRY_CRTE_DTIME,",
+						"          EQRY_CRTE_EMP_NO,",
+						"          EQRY_UPDT_DTIME,",
+						"          EQRY_EQFU_SEQ,",
+						"          EQRY_UPDT_DATE,",
+						"          EQRY_SR_NUM,",
+						"          EQRY_SR_TYPE,",
+						"          EQRY_FLW_STATUS,",
+						"          EQRY_P_MODL_YEAR,",
+						"          EQRY_CTGR_CODE = select12@EQRY_CTGR_CODE,",
+						"          EQRY_SUB_SRC_CODE,",
+						"          EQRY_SRC_FLG,",
+						"          EQRY_SR_NUM_REAL,",
+						"          Key,",
+						"          Enquiry_Source_Type,",
+						"          {Finance/Not Finance},",
+						"          ENSC_NAME,",
+						"          Enquiry_Sub_Source_Name,",
+						"          ENSC_GRP_NAME,",
+						"          Enquiry_Source,",
+						"          Enquiry_Status,",
+						"          Enquiry_Type2,",
+						"          EQRY_CTGR_CODE = select11@EQRY_CTGR_CODE,",
+						"          Enquiry_Category_Type = CMM_CODE_NAME",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> EnquiryCategoryType",
+						"join1 select(mapColumn(",
+						"          Dealer_No,",
+						"          Booking_No,",
+						"          Corporation_No,",
+						"          Company_No,",
+						"          BKNG_DATE,",
+						"          Model_Code,",
+						"          TRIM_Code,",
+						"          {Ext.Colour_Code},",
+						"          BKNG_EXPCT_DLVRY_DATE,",
+						"          BKNG_VRNT_PRICE,",
+						"          BKNG_AMT,",
+						"          BKNG_RCPT_TOTAL_AMT,",
+						"          BKNG_ALCN_DATE,",
+						"          BKNG_FNCE_TYPE,",
+						"          BKNG_FNCE_YN,",
+						"          BKNG_DSA_NAME,",
+						"          BKNG_DO_AMT,",
+						"          BKNG_CNCL_TYPE,",
+						"          BKNG_CNCL_DATE,",
+						"          BKNG_CNCL_RMRKS,",
+						"          {Link_Enquiry_No.} = select2@{Link_Enquiry_No.},",
+						"          BKNG_EMP_NO,",
+						"          {Customer_No.},",
+						"          BKNG_CRTE_DTIME,",
+						"          BKNG_CRTE_EMP_NO,",
+						"          BKNG_UPDT_DTIME,",
+						"          BKNG_CMTD_DLVRY_DATE,",
+						"          BKNG_SALE_TYPE,",
+						"          {Int.Colour_Code},",
+						"          BKNG_BILL_TO_STATE,",
+						"          BKNG_BILL_TO_CITY,",
+						"          BKNG_BILL_TO_TEHSIL,",
+						"          BKNG_BILL_TO_VILLAGE,",
+						"          BKNG_RMRKS,",
+						"          BKNG_SRC_FLG,",
+						"          Booking_Amt,",
+						"          Booking_Source,",
+						"          Booking_Source_Type,",
+						"          MOB_Docket_Date,",
+						"          DMS_Docket_Date,",
+						"          Booking_Date,",
+						"          Link_Date,",
+						"          Booking_Status,",
+						"          TEAM_LEADER,",
+						"          Team_leader_Joining_Date,",
+						"          Team_leader_Leave_Date,",
+						"          KEC_Short_Code,",
+						"          KEC_NAME,",
+						"          KEC_Long_Code,",
+						"          KEC_Join_Date,",
+						"          KEC_Leave_Date,",
+						"          Team_Leader_Name,",
+						"          Team_Leader_Code,",
+						"          {Active/Inactive},",
+						"          KEC,",
+						"          joinKey = derivedColumn7@joinKey",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select13",
+						"select13, derivedColumn8 join(select13@joinKey == derivedColumn8@joinKey,",
+						"     joinType:'left',",
+						"     matchType:'exact',",
+						"     ignoreSpaces: false,",
+						"     broadcast: 'auto')~> join2",
+						"join2 select(mapColumn(",
+						"          Dealer_No,",
+						"          Booking_No,",
+						"          Corporation_No,",
+						"          Company_No,",
+						"          BKNG_DATE,",
+						"          Model_Code,",
+						"          TRIM_Code,",
+						"          {Ext.Colour_Code},",
+						"          BKNG_EXPCT_DLVRY_DATE,",
+						"          BKNG_VRNT_PRICE,",
+						"          BKNG_AMT,",
+						"          BKNG_RCPT_TOTAL_AMT,",
+						"          BKNG_ALCN_DATE,",
+						"          BKNG_FNCE_TYPE,",
+						"          BKNG_FNCE_YN,",
+						"          BKNG_DSA_NAME,",
+						"          BKNG_DO_AMT,",
+						"          BKNG_CNCL_TYPE,",
+						"          BKNG_CNCL_DATE,",
+						"          BKNG_CNCL_RMRKS,",
+						"          {Link_Enquiry_No.} = select13@{Link_Enquiry_No.},",
+						"          BKNG_EMP_NO,",
+						"          {Customer_No.},",
+						"          BKNG_CRTE_DTIME,",
+						"          BKNG_CRTE_EMP_NO,",
+						"          BKNG_UPDT_DTIME,",
+						"          BKNG_CMTD_DLVRY_DATE,",
+						"          BKNG_SALE_TYPE,",
+						"          {Int.Colour_Code},",
+						"          BKNG_BILL_TO_STATE,",
+						"          BKNG_BILL_TO_CITY,",
+						"          BKNG_BILL_TO_TEHSIL,",
+						"          BKNG_BILL_TO_VILLAGE,",
+						"          BKNG_RMRKS,",
+						"          BKNG_SRC_FLG,",
+						"          Booking_Amt,",
+						"          Booking_Source,",
+						"          Booking_Source_Type,",
+						"          MOB_Docket_Date,",
+						"          DMS_Docket_Date,",
+						"          Booking_Date,",
+						"          Link_Date = select13@Link_Date,",
+						"          Booking_Status,",
+						"          TEAM_LEADER,",
+						"          Team_leader_Joining_Date,",
+						"          Team_leader_Leave_Date,",
+						"          KEC_Short_Code,",
+						"          KEC_NAME,",
+						"          KEC_Long_Code,",
+						"          KEC_Join_Date,",
+						"          KEC_Leave_Date,",
+						"          Team_Leader_Name,",
+						"          Team_Leader_Code,",
+						"          {Active/Inactive},",
+						"          KEC,",
+						"          {Enquiry_No.} = EnquiryCategoryType@{Link_Enquiry_No.},",
+						"          {Corporation_No.},",
+						"          {Company_No.},",
+						"          link_date = EnquiryCategoryType@link_date,",
+						"          EQRY_SRC_CODE,",
+						"          EQRY_STAT,",
+						"          EQRY_TYPE,",
+						"          EQRY_FNCE_YN,",
+						"          EQRY_EXCHG_YN,",
+						"          EQRY_EXCHG_MODEL_CODE,",
+						"          EQRY_EXCHG_SRC_CODE,",
+						"          EQRY_CLSE_DATE,",
+						"          EQRY_CLSE_TYPE,",
+						"          EQRY_CLSE_RMRKS,",
+						"          EQRY_EMP_NO,",
+						"          EQRY_CORP_NAME,",
+						"          EQRY_CRTE_DTIME,",
+						"          EQRY_CRTE_EMP_NO,",
+						"          EQRY_UPDT_DTIME,",
+						"          EQRY_EQFU_SEQ,",
+						"          EQRY_UPDT_DATE,",
+						"          EQRY_SR_NUM,",
+						"          EQRY_SR_TYPE,",
+						"          EQRY_FLW_STATUS,",
+						"          EQRY_P_MODL_YEAR,",
+						"          EQRY_CTGR_CODE,",
+						"          EQRY_SUB_SRC_CODE,",
+						"          EQRY_SRC_FLG,",
+						"          EQRY_SR_NUM_REAL,",
+						"          Key,",
+						"          Enquiry_Source_Type,",
+						"          {Finance/Not Finance},",
+						"          ENSC_NAME,",
+						"          Enquiry_Sub_Source_Name,",
+						"          ENSC_GRP_NAME,",
+						"          Enquiry_Source,",
+						"          Enquiry_Category_Type,",
+						"          Enquiry_Type2,",
+						"          Enquiry_Status,",
+						"          joinKey = select13@joinKey",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select14",
+						"SCEQCR select(mapColumn(",
+						"          {Dealer_No.} = EQCR_DLR_NO,",
+						"          {Link_Enquiry_No.} = EQCR_ENQRY_NO,",
+						"          EQCR_SEQ,",
+						"          {Corporation_No.} = EQCR_CORP_NO,",
+						"          {Company_No.} = EQCR_CMPN_NO,",
+						"          EQCR_MODEL_CODE,",
+						"          EQCR_VRNT_CODE,",
+						"          EQCR_COLOR_CODE,",
+						"          Booking_Qty1 = EQCR_QTY,",
+						"          EQCR_CRTE_DTIME,",
+						"          EQCR_CRTE_EMP_NO,",
+						"          EQCR_UPDT_DTIME,",
+						"          EQCR_UPDT_EMP_NO,",
+						"          EQCR_INTCOLOR_CODE,",
+						"          EQCR_MAKER_CODE,",
+						"          EQCR_INT_COLOR_CODE,",
+						"          EQCR_QUOTED_PRICE,",
+						"          EQCR_EXPECTED_PRICE",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select15",
+						"select14, derivedColumn10 join(select14@joinKey == derivedColumn10@joinKey,",
+						"     joinType:'left',",
+						"     matchType:'exact',",
+						"     ignoreSpaces: false,",
+						"     broadcast: 'auto')~> join3",
+						"join3 select(mapColumn(",
+						"          Dealer_No,",
+						"          Booking_No,",
+						"          Corporation_No,",
+						"          Company_No,",
+						"          BKNG_DATE,",
+						"          Model_Code,",
+						"          TRIM_Code,",
+						"          {Ext.Colour_Code},",
+						"          BKNG_EXPCT_DLVRY_DATE,",
+						"          BKNG_VRNT_PRICE,",
+						"          BKNG_AMT,",
+						"          BKNG_RCPT_TOTAL_AMT,",
+						"          BKNG_ALCN_DATE,",
+						"          BKNG_FNCE_TYPE,",
+						"          BKNG_FNCE_YN,",
+						"          BKNG_DSA_NAME,",
+						"          BKNG_DO_AMT,",
+						"          BKNG_CNCL_TYPE,",
+						"          BKNG_CNCL_DATE,",
+						"          BKNG_CNCL_RMRKS,",
+						"          {Link_Enquiry_No.} = select14@{Link_Enquiry_No.},",
+						"          BKNG_EMP_NO,",
+						"          {Customer_No.},",
+						"          BKNG_CRTE_DTIME,",
+						"          BKNG_CRTE_EMP_NO,",
+						"          BKNG_UPDT_DTIME,",
+						"          BKNG_CMTD_DLVRY_DATE,",
+						"          BKNG_SALE_TYPE,",
+						"          BKNG_BILL_TO_STATE,",
+						"          BKNG_BILL_TO_CITY,",
+						"          BKNG_BILL_TO_TEHSIL,",
+						"          BKNG_BILL_TO_VILLAGE,",
+						"          BKNG_RMRKS,",
+						"          BKNG_SRC_FLG,",
+						"          Booking_Amt,",
+						"          Booking_Source,",
+						"          Booking_Source_Type,",
+						"          MOB_Docket_Date,",
+						"          DMS_Docket_Date,",
+						"          Booking_Date,",
+						"          Link_Date = select14@Link_Date,",
+						"          Booking_Status,",
+						"          TEAM_LEADER,",
+						"          Team_leader_Joining_Date,",
+						"          Team_leader_Leave_Date,",
+						"          KEC_Short_Code,",
+						"          KEC_NAME,",
+						"          KEC_Long_Code,",
+						"          KEC_Join_Date,",
+						"          KEC_Leave_Date,",
+						"          Team_Leader_Name,",
+						"          Team_Leader_Code,",
+						"          {Active/Inactive},",
+						"          KEC,",
+						"          {Enquiry_No.},",
+						"          {Corporation_No.} = select14@{Corporation_No.},",
+						"          {Company_No.} = select14@{Company_No.},",
+						"          link_date = select14@link_date,",
+						"          EQRY_SRC_CODE,",
+						"          EQRY_STAT,",
+						"          EQRY_TYPE,",
+						"          EQRY_FNCE_YN,",
+						"          EQRY_EXCHG_YN,",
+						"          EQRY_EXCHG_MODEL_CODE,",
+						"          EQRY_EXCHG_SRC_CODE,",
+						"          EQRY_CLSE_DATE,",
+						"          EQRY_CLSE_TYPE,",
+						"          EQRY_CLSE_RMRKS,",
+						"          EQRY_EMP_NO,",
+						"          EQRY_CORP_NAME,",
+						"          EQRY_CRTE_DTIME,",
+						"          EQRY_CRTE_EMP_NO,",
+						"          EQRY_UPDT_DTIME,",
+						"          EQRY_EQFU_SEQ,",
+						"          EQRY_UPDT_DATE,",
+						"          EQRY_SR_NUM,",
+						"          EQRY_SR_TYPE,",
+						"          EQRY_FLW_STATUS,",
+						"          EQRY_P_MODL_YEAR,",
+						"          EQRY_CTGR_CODE,",
+						"          EQRY_SUB_SRC_CODE,",
+						"          EQRY_SRC_FLG,",
+						"          EQRY_SR_NUM_REAL,",
+						"          Key,",
+						"          Enquiry_Source_Type,",
+						"          {Finance/Not Finance},",
+						"          ENSC_NAME,",
+						"          Enquiry_Sub_Source_Name,",
+						"          ENSC_GRP_NAME,",
+						"          Enquiry_Source,",
+						"          Enquiry_Category_Type,",
+						"          EQCR_SEQ,",
+						"          EQCR_MODEL_CODE,",
+						"          EQCR_VRNT_CODE,",
+						"          EQCR_COLOR_CODE,",
+						"          Booking_Qty1,",
+						"          EQCR_CRTE_DTIME,",
+						"          EQCR_CRTE_EMP_NO,",
+						"          EQCR_UPDT_DTIME,",
+						"          EQCR_UPDT_EMP_NO,",
+						"          EQCR_INTCOLOR_CODE,",
+						"          EQCR_MAKER_CODE,",
+						"          EQCR_INT_COLOR_CODE,",
+						"          EQCR_QUOTED_PRICE,",
+						"          EQCR_EXPECTED_PRICE,",
+						"          {Int.Colour_Code},",
+						"          Enquiry_Type2,",
+						"          Enquiry_Status,",
+						"          joinKey = select14@joinKey",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select16",
+						"SWINVCTB derive(INVC_CNFM_DATE = iif(substringIndex(INVC_CNFM_DATE,'-',-1)=='2010',substringIndex(INVC_CNFM_DATE,'-',2)+'-'+'2020',INVC_CNFM_DATE),",
+						"          INVC_BASIC_PRCE = substring(INVC_BASIC_PRCE, 4, 5),",
+						"          Delivery_Date = INVC_DLVRY_DATE,",
+						"          Invoice_Cofirmation_Date = INVC_CNFM_DATE) ~> derivedColumn5",
+						"derivedColumn5 select(mapColumn(",
+						"          {Dealer_No.} = INVC_DLR_NO,",
+						"          {Invoice_No.} = INVC_NO,",
+						"          {Corporation_No.} = INVC_CORP_NO,",
+						"          { Company_No.} = INVC_CMPN_NO,",
+						"          INVC_TYPE,",
+						"          INVC_CNFM_YN,",
+						"          INVC_CNFM_DATE,",
+						"          Invoice_Date = INVC_DATE,",
+						"          INVC_INSR_YN,",
+						"          INVC_INSR_AMT,",
+						"          INVC_INSR_DATE,",
+						"          INVC_INSR_TYPE,",
+						"          INVC_INSR_NO,",
+						"          INVC_RGSTN_NO,",
+						"          INVC_RGSTN_DATE,",
+						"          Delivery_Date = INVC_DLVRY_DATE,",
+						"          INVC_ADDR1,",
+						"          INVC_ADDR2,",
+						"          INVC_ADDR3,",
+						"          INVC_RGN_CODE,",
+						"          INVC_STCD_CODE,",
+						"          INVC_CITY_CODE,",
+						"          INVC_LCTN_CODE,",
+						"          INVC_PIN_CODE,",
+						"          INVC_CNCL_YN,",
+						"          INVC_CNCL_DATE,",
+						"          INVC_CNCL_RMRKS,",
+						"          {Booking_No.} = INVC_BKNG_NO,",
+						"          INVC_CRTE_DTIME,",
+						"          INVC_CRTE_EMP_NO,",
+						"          INVC_UPDT_DTIME,",
+						"          INVC_UPDT_EMP_NO,",
+						"          INVC_ACTRL_USR_YN,",
+						"          INVC_DN_DATE,",
+						"          INVC_DLVRY_CNFM_YN,",
+						"          INVC_CC_REQ,",
+						"          INVC_CC_REASON,",
+						"          INVC_CC_RDATE,",
+						"          INVC_CC_RMRKS,",
+						"          INVC_CC_RA_YN,",
+						"          INVC_CC_STATUS,",
+						"          INVC_CC_REQ_VERSION,",
+						"          INVC_HMIL_EMP_CODE,",
+						"          {Link_Enquiry_No.} = INVC_ENQRY_NO,",
+						"          INVC_REGI_FILE_DOC_NO,",
+						"          INVC_DLVRY_FILE_DOC_NO,",
+						"          {Customer_No.} = INVC_REGI_CUST_NO,",
+						"          INVC_REGI_RELAT_SHIP,",
+						"          INVC_BASIC_PRCE,",
+						"          INVC_VRNT_PRCE,",
+						"          INVC_ADVNC_EMI,",
+						"          INVC_LOAN_AMT,",
+						"          INVC_WTYNLTY_CFC_YN,",
+						"          INVC_EQCR_SEQ,",
+						"          INVC_ALCN_DATE,",
+						"          INVC_SCHEME_YN,",
+						"          Delivery_Date,",
+						"          Invoice_Cofirmation_Date",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select17",
+						"select16, derivedColumn9 join(select16@joinKey == derivedColumn9@joinKey,",
+						"     joinType:'left',",
+						"     matchType:'exact',",
+						"     ignoreSpaces: false,",
+						"     broadcast: 'auto')~> join4",
+						"join4 select(mapColumn(",
+						"          Dealer_No,",
+						"          Booking_No,",
+						"          Corporation_No,",
+						"          Company_No,",
+						"          BKNG_DATE,",
+						"          Model_Code,",
+						"          TRIM_Code,",
+						"          {Ext.Colour_Code},",
+						"          BKNG_EXPCT_DLVRY_DATE,",
+						"          BKNG_VRNT_PRICE,",
+						"          BKNG_AMT,",
+						"          BKNG_RCPT_TOTAL_AMT,",
+						"          BKNG_ALCN_DATE,",
+						"          BKNG_FNCE_TYPE,",
+						"          BKNG_FNCE_YN,",
+						"          BKNG_DSA_NAME,",
+						"          BKNG_DO_AMT,",
+						"          BKNG_CNCL_TYPE,",
+						"          BKNG_CNCL_DATE,",
+						"          BKNG_CNCL_RMRKS,",
+						"          {Link_Enquiry_No.} = select16@{Link_Enquiry_No.},",
+						"          BKNG_EMP_NO,",
+						"          {Customer_No.} = select16@{Customer_No.},",
+						"          BKNG_CRTE_DTIME,",
+						"          BKNG_CRTE_EMP_NO,",
+						"          BKNG_UPDT_DTIME,",
+						"          BKNG_CMTD_DLVRY_DATE,",
+						"          BKNG_SALE_TYPE,",
+						"          BKNG_BILL_TO_STATE,",
+						"          BKNG_BILL_TO_CITY,",
+						"          BKNG_BILL_TO_TEHSIL,",
+						"          BKNG_BILL_TO_VILLAGE,",
+						"          BKNG_RMRKS,",
+						"          BKNG_SRC_FLG,",
+						"          Booking_Amt,",
+						"          Booking_Source,",
+						"          Booking_Source_Type,",
+						"          MOB_Docket_Date,",
+						"          DMS_Docket_Date,",
+						"          Booking_Date,",
+						"          Link_Date = select16@Link_Date,",
+						"          Booking_Status,",
+						"          TEAM_LEADER,",
+						"          Team_leader_Joining_Date,",
+						"          Team_leader_Leave_Date,",
+						"          KEC_Short_Code,",
+						"          KEC_NAME,",
+						"          KEC_Long_Code,",
+						"          KEC_Join_Date,",
+						"          KEC_Leave_Date,",
+						"          Team_Leader_Name,",
+						"          Team_Leader_Code,",
+						"          {Active/Inactive},",
+						"          KEC,",
+						"          {Enquiry_No.},",
+						"          {Corporation_No.} = select16@{Corporation_No.},",
+						"          {Company_No.},",
+						"          link_date = select16@link_date,",
+						"          EQRY_SRC_CODE,",
+						"          EQRY_STAT,",
+						"          EQRY_TYPE,",
+						"          EQRY_FNCE_YN,",
+						"          EQRY_EXCHG_YN,",
+						"          EQRY_EXCHG_MODEL_CODE,",
+						"          EQRY_EXCHG_SRC_CODE,",
+						"          EQRY_CLSE_DATE,",
+						"          EQRY_CLSE_TYPE,",
+						"          EQRY_CLSE_RMRKS,",
+						"          EQRY_EMP_NO,",
+						"          EQRY_CORP_NAME,",
+						"          EQRY_CRTE_DTIME,",
+						"          EQRY_CRTE_EMP_NO,",
+						"          EQRY_UPDT_DTIME,",
+						"          EQRY_EQFU_SEQ,",
+						"          EQRY_UPDT_DATE,",
+						"          EQRY_SR_NUM,",
+						"          EQRY_SR_TYPE,",
+						"          EQRY_FLW_STATUS,",
+						"          EQRY_P_MODL_YEAR,",
+						"          EQRY_CTGR_CODE,",
+						"          EQRY_SUB_SRC_CODE,",
+						"          EQRY_SRC_FLG,",
+						"          EQRY_SR_NUM_REAL,",
+						"          Key,",
+						"          Enquiry_Source_Type,",
+						"          {Finance/Not Finance},",
+						"          ENSC_NAME,",
+						"          Enquiry_Sub_Source_Name,",
+						"          ENSC_GRP_NAME,",
+						"          Enquiry_Source,",
+						"          Enquiry_Category_Type,",
+						"          EQCR_SEQ,",
+						"          EQCR_MODEL_CODE,",
+						"          EQCR_VRNT_CODE,",
+						"          EQCR_COLOR_CODE,",
+						"          Booking_Qty1,",
+						"          EQCR_CRTE_DTIME,",
+						"          EQCR_CRTE_EMP_NO,",
+						"          EQCR_UPDT_DTIME,",
+						"          EQCR_UPDT_EMP_NO,",
+						"          EQCR_INTCOLOR_CODE,",
+						"          EQCR_MAKER_CODE,",
+						"          EQCR_INT_COLOR_CODE,",
+						"          EQCR_QUOTED_PRICE,",
+						"          EQCR_EXPECTED_PRICE,",
+						"          {Invoice_No.},",
+						"          INVC_TYPE,",
+						"          INVC_CNFM_YN,",
+						"          INVC_CNFM_DATE,",
+						"          Invoice_Date,",
+						"          INVC_INSR_YN,",
+						"          INVC_INSR_AMT,",
+						"          INVC_INSR_DATE,",
+						"          INVC_INSR_TYPE,",
+						"          INVC_INSR_NO,",
+						"          INVC_RGSTN_NO,",
+						"          INVC_RGSTN_DATE,",
+						"          Delivery_Date,",
+						"          INVC_ADDR1,",
+						"          INVC_ADDR2,",
+						"          INVC_ADDR3,",
+						"          INVC_RGN_CODE,",
+						"          INVC_STCD_CODE,",
+						"          INVC_CITY_CODE,",
+						"          INVC_LCTN_CODE,",
+						"          INVC_PIN_CODE,",
+						"          INVC_CNCL_YN,",
+						"          INVC_CNCL_DATE,",
+						"          INVC_CNCL_RMRKS,",
+						"          {Booking_No.},",
+						"          INVC_CRTE_DTIME,",
+						"          INVC_CRTE_EMP_NO,",
+						"          INVC_UPDT_DTIME,",
+						"          INVC_UPDT_EMP_NO,",
+						"          INVC_ACTRL_USR_YN,",
+						"          INVC_DN_DATE,",
+						"          INVC_DLVRY_CNFM_YN,",
+						"          INVC_CC_REQ,",
+						"          INVC_CC_REASON,",
+						"          INVC_CC_RDATE,",
+						"          INVC_CC_RMRKS,",
+						"          INVC_CC_RA_YN,",
+						"          INVC_CC_STATUS,",
+						"          INVC_CC_REQ_VERSION,",
+						"          INVC_HMIL_EMP_CODE,",
+						"          INVC_REGI_FILE_DOC_NO,",
+						"          INVC_DLVRY_FILE_DOC_NO,",
+						"          INVC_REGI_RELAT_SHIP,",
+						"          INVC_BASIC_PRCE,",
+						"          INVC_VRNT_PRCE,",
+						"          INVC_ADVNC_EMI,",
+						"          INVC_LOAN_AMT,",
+						"          INVC_WTYNLTY_CFC_YN,",
+						"          INVC_EQCR_SEQ,",
+						"          INVC_ALCN_DATE,",
+						"          INVC_SCHEME_YN,",
+						"          Invoice_Cofirmation_Date,",
+						"          {Int.Colour_Code},",
+						"          Enquiry_Type2,",
+						"          Enquiry_Status,",
+						"          joinKey = select16@joinKey",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select18",
+						"select18 derive(Pending = iif(EQRY_STAT=='20','Pending Booking',iif(EQRY_STAT=='30','Pending Booking',iif(EQRY_STAT=='40' && length(trim(INVC_CNFM_DATE))<1,'Pending Booking','Booking')))) ~> derivedColumn6",
+						"derivedColumn6 select(mapColumn(",
+						"          {Trader No} = Dealer_No,",
+						"          {Order No} = Booking_No,",
+						"          {Company No} = Company_No,",
+						"          ORD_EMP_NO = BKNG_EMP_NO,",
+						"          {Customer No.} = {Customer_No.},",
+						"          ORD_CRTE_DTIME = BKNG_CRTE_DTIME,",
+						"          {Order Amt} = Booking_Amt,",
+						"          Order_Source = Booking_Source,",
+						"          Order_Source_Type = Booking_Source_Type,",
+						"          Booking_Date,",
+						"          Link_Date = select18@Link_Date,",
+						"          Booking_Status,",
+						"          TEAM_LEADER,",
+						"          Team_leader_Joining_Date,",
+						"          Team_leader_Leave_Date,",
+						"          KEC_Join_Date,",
+						"          KEC_Leave_Date,",
+						"          Team_Leader_Name,",
+						"          Team_Leader_Code,",
+						"          {Active/Inactive},",
+						"          {Lead No} = {Enquiry_No.},",
+						"          Lead_TYPE = EQRY_TYPE,",
+						"          Lead_EMP_NO = EQRY_EMP_NO,",
+						"          Lead_CRTE_DTIME = EQRY_CRTE_DTIME,",
+						"          {Lead source type} = Enquiry_Source_Type,",
+						"          Lead_Sub_Source_Name = Enquiry_Sub_Source_Name,",
+						"          Lead_Source = Enquiry_Source,",
+						"          Lead_Category_Type = Enquiry_Category_Type,",
+						"          Booking_Qty = Booking_Qty1,",
+						"          Invoice_No = {Invoice_No.},",
+						"          INVC_TYPE,",
+						"          Invoice_Date,",
+						"          Delivery_Date,",
+						"          Lead_Status = Enquiry_Status,",
+						"          joinKey",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select19",
+						"select2 derive(joinKey = concat(Dealer_No, {Link_Enquiry_No.})) ~> derivedColumn7",
+						"EnquiryCategoryType derive(joinKey = concat({Dealer_No.},{Link_Enquiry_No.})) ~> derivedColumn8",
+						"select17 derive(joinKey = concat({Dealer_No.},{Link_Enquiry_No.})) ~> derivedColumn9",
+						"select15 derive(joinKey = concat({Dealer_No.},{Link_Enquiry_No.})) ~> derivedColumn10",
+						"select19 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     partitionFileNames:['final.csv'],",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/Stage1_Sales_SAL_SOBKNG_TB')]",
+				"[concat(variables('factoryId'), '/datasets/Stage1_Sales_RO_Booking')]",
+				"[concat(variables('factoryId'), '/datasets/Stage1_Sales_Team_Leader')]",
+				"[concat(variables('factoryId'), '/datasets/S1Sales_AfterSales_CRM_SCEQRY_TB')]",
+				"[concat(variables('factoryId'), '/datasets/Stage1_Sales_CRM_SDENSC_TB')]",
+				"[concat(variables('factoryId'), '/datasets/Stage1_Sales_AfterSales_CMM_CMCDTB')]",
+				"[concat(variables('factoryId'), '/datasets/Stage1_Sales_CRM_SCEQCR_TB')]",
+				"[concat(variables('factoryId'), '/datasets/Stage1_Sales_SAL_SWINVC_TB')]",
+				"[concat(variables('factoryId'), '/datasets/DelimitedText1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Data flow1",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "dataflow1",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"SOBKNG": {},
+									"ROBooking": {},
+									"S1SalesTeamLeader": {},
+									"CRMSCEQRY": {},
+									"SDENSCTB": {},
+									"CMCDTB": {},
+									"CMCDTB1": {},
+									"CMCDTB2": {},
+									"SCEQCR": {},
+									"SWINVCTB": {},
+									"sink1": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 32,
+								"computeType": "MemoryOptimized"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/dataflow1')]"
+			]
+		}
+	]
+}
