@@ -5,14 +5,55 @@
 		"typeProperties": {
 			"sources": [
 				{
+					"dataset": {
+						"referenceName": "datatypechange",
+						"type": "DatasetReference"
+					},
 					"name": "source1"
 				}
 			],
 			"sinks": [],
 			"transformations": [],
 			"scriptLines": [
-				"source(allowSchemaDrift: true,",
-				"     validateSchema: false) ~> source1"
+				"source(output(",
+				"          {Trader No} as string,",
+				"          {Order No} as string,",
+				"          {Company No} as string,",
+				"          ORD_EMP_NO as string,",
+				"          {Customer No.} as string,",
+				"          ORD_CRTE_DTIME as string,",
+				"          {Order Amt} as string,",
+				"          Order_Source as string,",
+				"          Order_Source_Type as string,",
+				"          Booking_Date as string,",
+				"          Link_Date as string,",
+				"          Booking_Status as string,",
+				"          TEAM_LEADER as string,",
+				"          Team_leader_Joining_Date as string,",
+				"          Team_leader_Leave_Date as string,",
+				"          KEC_Join_Date as string,",
+				"          KEC_Leave_Date as string,",
+				"          Team_Leader_Name as string,",
+				"          Team_Leader_Code as string,",
+				"          {Active/Inactive} as string,",
+				"          {Lead No} as string,",
+				"          Lead_TYPE as string,",
+				"          Lead_EMP_NO as string,",
+				"          Lead_CRTE_DTIME as string,",
+				"          {Lead source type} as string,",
+				"          Lead_Sub_Source_Name as string,",
+				"          Lead_Source as string,",
+				"          Lead_Category_Type as string,",
+				"          Booking_Qty as string,",
+				"          Invoice_No as string,",
+				"          INVC_TYPE as string,",
+				"          Invoice_Date as string,",
+				"          Delivery_Date as string,",
+				"          Lead_Status as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1"
 			]
 		}
 	}
