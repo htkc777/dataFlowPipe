@@ -91,9 +91,7 @@
 				"          INVC_TYPE,",
 				"          Invoice_Date,",
 				"          Delivery_Date,",
-				"          Lead_Status,",
-				"          each(match(Flag),",
-				"               Order = $$)",
+				"          Lead_Status",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select1"
