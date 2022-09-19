@@ -5,10 +5,6 @@
 		"typeProperties": {
 			"sources": [
 				{
-					"dataset": {
-						"referenceName": "datatypechange",
-						"type": "DatasetReference"
-					},
 					"name": "source1"
 				}
 			],
@@ -16,6 +12,12 @@
 			"transformations": [
 				{
 					"name": "select1"
+				},
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "select2"
 				}
 			],
 			"scriptLines": [
@@ -56,8 +58,7 @@
 				"          Lead_Status as string",
 				"     ),",
 				"     allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> source1",
+				"     validateSchema: false) ~> source1",
 				"source1 select(mapColumn(",
 				"          {Trader No},",
 				"          {Order No},",
@@ -94,7 +95,46 @@
 				"          Lead_Status",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select1"
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 derive(Flag = 'Order') ~> derivedColumn1",
+				"derivedColumn1 select(mapColumn(",
+				"          {Trader No},",
+				"          {Order No},",
+				"          {Company No},",
+				"          ORD_EMP_NO,",
+				"          {Customer No.},",
+				"          ORD_CRTE_DTIME,",
+				"          {Order Amt},",
+				"          Order_Source,",
+				"          Order_Source_Type,",
+				"          Link_Date,",
+				"          Booking_Status,",
+				"          TEAM_LEADER,",
+				"          Team_leader_Joining_Date,",
+				"          Team_leader_Leave_Date,",
+				"          KEC_Join_Date,",
+				"          KEC_Leave_Date,",
+				"          Team_Leader_Name,",
+				"          Team_Leader_Code,",
+				"          {Active/Inactive},",
+				"          {Lead No},",
+				"          Lead_TYPE,",
+				"          Lead_EMP_NO,",
+				"          Lead_CRTE_DTIME,",
+				"          {Lead source type},",
+				"          Lead_Sub_Source_Name,",
+				"          Lead_Source,",
+				"          Lead_Category_Type,",
+				"          Booking_Qty,",
+				"          Invoice_No,",
+				"          INVC_TYPE,",
+				"          Invoice_Date,",
+				"          Delivery_Date,",
+				"          Lead_Status,",
+				"          Flag",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select2"
 			]
 		}
 	}
