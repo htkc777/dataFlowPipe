@@ -234,6 +234,12 @@
 				},
 				{
 					"name": "derivedColumn10"
+				},
+				{
+					"name": "derivedColumn11"
+				},
+				{
+					"name": "derivedColumn12"
 				}
 			],
 			"scriptLines": [
@@ -1236,7 +1242,7 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select12",
-				"select12, select11 lookup(select12@EQRY_CTGR_CODE == select11@EQRY_CTGR_CODE,",
+				"derivedColumn11, derivedColumn12 lookup(derivedColumn11@EQRY_CTGR_CODE == derivedColumn12@EQRY_CTGR_CODE,",
 				"     multiple: false,",
 				"     pickup: 'first',",
 				"     asc(select11@CMM_CODE_NAME, false),",
@@ -1268,7 +1274,7 @@
 				"          EQRY_SR_TYPE,",
 				"          EQRY_FLW_STATUS,",
 				"          EQRY_P_MODL_YEAR,",
-				"          EQRY_CTGR_CODE = select12@EQRY_CTGR_CODE,",
+				"          EQRY_CTGR_CODE = derivedColumn11@EQRY_CTGR_CODE,",
 				"          EQRY_SUB_SRC_CODE,",
 				"          EQRY_SRC_FLG,",
 				"          EQRY_SR_NUM_REAL,",
@@ -1281,7 +1287,7 @@
 				"          Enquiry_Source,",
 				"          Enquiry_Status,",
 				"          Enquiry_Type2,",
-				"          EQRY_CTGR_CODE = select11@EQRY_CTGR_CODE,",
+				"          EQRY_CTGR_CODE = derivedColumn12@EQRY_CTGR_CODE,",
 				"          Enquiry_Category_Type = CMM_CODE_NAME",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
@@ -1869,6 +1875,8 @@
 				"EnquiryCategoryType derive(joinKey = concat({Dealer_No.},{Link_Enquiry_No.})) ~> derivedColumn8",
 				"select17 derive(joinKey = concat({Dealer_No.},{Link_Enquiry_No.})) ~> derivedColumn9",
 				"select15 derive(joinKey = concat({Dealer_No.},{Link_Enquiry_No.})) ~> derivedColumn10",
+				"select12 derive(EQRY_CTGR_CODE = toInteger(EQRY_CTGR_CODE)) ~> derivedColumn11",
+				"select11 derive(EQRY_CTGR_CODE = toInteger(EQRY_CTGR_CODE)) ~> derivedColumn12",
 				"select19 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
